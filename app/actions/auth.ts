@@ -3,6 +3,8 @@
 import bcrypt from 'bcryptjs';
 import { prisma } from '@/lib/db';
 import { registerSchema } from '@/lib/validations/auth';
+import { loginSchema } from '@/lib/validations/login';
+import { createSession, deleteSession } from '@/lib/session';
 
 export interface RegisterActionResult {
   success: boolean;
@@ -10,11 +12,28 @@ export interface RegisterActionResult {
   user?: {
     id: string;
     name: string | null;
+    username: string | null;
     email: string;
   };
   errors?: {
     name?: string[];
     email?: string[];
+    password?: string[];
+    form?: string[];
+  };
+}
+
+export interface LoginActionResult {
+  success: boolean;
+  message?: string;
+  user?: {
+    id: string;
+    name: string | null;
+    username: string | null;
+    email: string;
+  };
+  errors?: {
+    username?: string[];
     password?: string[];
     form?: string[];
   };
@@ -63,6 +82,14 @@ export async function registerUserAction(
       };
     }
 
+    // Generate unique username from email
+    const baseUsername = email.split('@')[0].toLowerCase().replace(/[^a-z0-9_]/g, '');
+    let username = baseUsername;
+    let counter = 1;
+    while (await prisma.user.findUnique({ where: { username } })) {
+      username = `${baseUsername}${counter++}`;
+    }
+
     // Hash password with bcrypt
     const hashedPassword = await bcrypt.hash(password, 10);
 
@@ -70,6 +97,7 @@ export async function registerUserAction(
     const user = await prisma.user.create({
       data: {
         name,
+        username,
         email,
         password: hashedPassword,
         role: 'USER',
@@ -77,8 +105,19 @@ export async function registerUserAction(
       select: {
         id: true,
         name: true,
+        username: true,
         email: true,
+        role: true,
       },
+    });
+
+    // Create session cookie automatically upon registration
+    await createSession({
+      id: user.id,
+      name: user.name,
+      username: user.username,
+      email: user.email,
+      role: user.role,
     });
 
     return {
@@ -96,4 +135,100 @@ export async function registerUserAction(
       },
     };
   }
+}
+
+export async function loginUserAction(
+  prevState: LoginActionResult | null,
+  formData: FormData
+): Promise<LoginActionResult> {
+  const rawData = {
+    username: formData.get('username'),
+    password: formData.get('password'),
+  };
+
+  const validation = loginSchema.safeParse(rawData);
+
+  if (!validation.success) {
+    const fieldErrors = validation.error.flatten().fieldErrors;
+    return {
+      success: false,
+      message: 'Please provide both username and password.',
+      errors: {
+        username: fieldErrors.username,
+        password: fieldErrors.password,
+      },
+    };
+  }
+
+  const { username: identifier, password } = validation.data;
+  const normalizedIdentifier = identifier.trim().toLowerCase();
+
+  try {
+    // Find user by either username or email
+    const user = await prisma.user.findFirst({
+      where: {
+        OR: [
+          { username: normalizedIdentifier },
+          { email: normalizedIdentifier },
+        ],
+      },
+    });
+
+    if (!user || !user.password) {
+      return {
+        success: false,
+        message: 'Invalid username or password. Please check your credentials.',
+        errors: {
+          form: ['Invalid username or password.'],
+        },
+      };
+    }
+
+    // Verify password
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+
+    if (!isPasswordValid) {
+      return {
+        success: false,
+        message: 'Invalid username or password. Please check your credentials.',
+        errors: {
+          form: ['Invalid username or password.'],
+        },
+      };
+    }
+
+    // Create session cookie
+    await createSession({
+      id: user.id,
+      name: user.name,
+      username: user.username,
+      email: user.email,
+      role: user.role,
+    });
+
+    return {
+      success: true,
+      message: 'Signed in successfully! Welcome back.',
+      user: {
+        id: user.id,
+        name: user.name,
+        username: user.username,
+        email: user.email,
+      },
+    };
+  } catch (error) {
+    console.error('Login action error:', error);
+    return {
+      success: false,
+      message: 'An error occurred during sign in. Please try again.',
+      errors: {
+        form: ['An unexpected error occurred. Please try again later.'],
+      },
+    };
+  }
+}
+
+export async function logoutUserAction(): Promise<{ success: boolean }> {
+  await deleteSession();
+  return { success: true };
 }
