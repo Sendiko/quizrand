@@ -20,13 +20,13 @@ export async function POST(request: Request) {
       );
     }
 
-    const { username: identifier, password } = validation.data;
-    const normalized = identifier.trim().toLowerCase();
+    const { username, password } = validation.data;
+    const normalizedUsername = username.trim().toLowerCase();
 
-    // Query user by username or email
-    const user = await prisma.user.findFirst({
+    // Query user by username
+    const user = await prisma.user.findUnique({
       where: {
-        OR: [{ username: normalized }, { email: normalized }],
+        username: normalizedUsername,
       },
     });
 

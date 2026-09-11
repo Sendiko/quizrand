@@ -19,7 +19,8 @@ export async function POST(request: Request) {
       );
     }
 
-    const { name, email, password } = validation.data;
+    const { username, email, password } = validation.data;
+    const normalizedUsername = username.trim().toLowerCase();
 
     // Check duplicate
     const existing = await prisma.user.findUnique({
@@ -39,12 +40,30 @@ export async function POST(request: Request) {
       );
     }
 
+    const existingUsername = await prisma.user.findUnique({
+      where: { username: normalizedUsername },
+    });
+
+    if (existingUsername) {
+      return NextResponse.json(
+        {
+          success: false,
+          message: 'That username is already taken.',
+          errors: {
+            username: ['This username is already in use.'],
+          },
+        },
+        { status: 409 }
+      );
+    }
+
     // Hash password
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const user = await prisma.user.create({
       data: {
-        name,
+        name: normalizedUsername,
+        username: normalizedUsername,
         email,
         password: hashedPassword,
         role: 'USER',
@@ -52,6 +71,7 @@ export async function POST(request: Request) {
       select: {
         id: true,
         name: true,
+        username: true,
         email: true,
         role: true,
         createdAt: true,

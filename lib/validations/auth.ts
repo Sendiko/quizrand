@@ -1,12 +1,12 @@
 import { z } from 'zod';
 
 export const registerSchema = z.object({
-  name: z
+  username: z
     .string()
     .trim()
-    .min(1, 'Full name is required')
-    .min(2, 'Full name must be at least 2 characters')
-    .max(100, 'Full name must be under 100 characters'),
+    .min(1, 'Username is required')
+    .min(2, 'Username must be at least 2 characters')
+    .max(50, 'Username must be under 50 characters'),
   email: z
     .string()
     .trim()

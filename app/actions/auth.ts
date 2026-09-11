@@ -16,7 +16,7 @@ export interface RegisterActionResult {
     email: string;
   };
   errors?: {
-    name?: string[];
+    username?: string[];
     email?: string[];
     password?: string[];
     form?: string[];
@@ -44,7 +44,7 @@ export async function registerUserAction(
   formData: FormData
 ): Promise<RegisterActionResult> {
   const rawData = {
-    name: formData.get('name'),
+    username: formData.get('username'),
     email: formData.get('email'),
     password: formData.get('password'),
   };
@@ -57,14 +57,15 @@ export async function registerUserAction(
       success: false,
       message: 'Please review the form for errors.',
       errors: {
-        name: fieldErrors.name,
+        username: fieldErrors.username,
         email: fieldErrors.email,
         password: fieldErrors.password,
       },
     };
   }
 
-  const { name, email, password } = validation.data;
+  const { username, email, password } = validation.data;
+  const normalizedUsername = username.trim().toLowerCase();
 
   try {
     // Check if user already exists
@@ -82,12 +83,18 @@ export async function registerUserAction(
       };
     }
 
-    // Generate unique username from email
-    const baseUsername = email.split('@')[0].toLowerCase().replace(/[^a-z0-9_]/g, '');
-    let username = baseUsername;
-    let counter = 1;
-    while (await prisma.user.findUnique({ where: { username } })) {
-      username = `${baseUsername}${counter++}`;
+    const existingUsername = await prisma.user.findUnique({
+      where: { username: normalizedUsername },
+    });
+
+    if (existingUsername) {
+      return {
+        success: false,
+        message: 'That username is already taken.',
+        errors: {
+          username: ['This username is already in use. Please choose another one.'],
+        },
+      };
     }
 
     // Hash password with bcrypt
@@ -96,8 +103,8 @@ export async function registerUserAction(
     // Create user in database
     const user = await prisma.user.create({
       data: {
-        name,
-        username,
+        name: normalizedUsername,
+        username: normalizedUsername,
         email,
         password: hashedPassword,
         role: 'USER',
@@ -160,17 +167,14 @@ export async function loginUserAction(
     };
   }
 
-  const { username: identifier, password } = validation.data;
-  const normalizedIdentifier = identifier.trim().toLowerCase();
+  const { username, password } = validation.data;
+  const normalizedUsername = username.trim().toLowerCase();
 
   try {
-    // Find user by either username or email
-    const user = await prisma.user.findFirst({
+    // Find user by username
+    const user = await prisma.user.findUnique({
       where: {
-        OR: [
-          { username: normalizedIdentifier },
-          { email: normalizedIdentifier },
-        ],
+        username: normalizedUsername,
       },
     });
 

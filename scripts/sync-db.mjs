@@ -8,16 +8,55 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const projectRoot = path.resolve(__dirname, '..');
 
+function loadEnvFile(filePath) {
+  const env = {};
+
+  if (!fs.existsSync(filePath)) {
+    return env;
+  }
+
+  const content = fs.readFileSync(filePath, 'utf8');
+
+  for (const line of content.split('\n')) {
+    const trimmed = line.trim();
+    if (trimmed && !trimmed.startsWith('#') && trimmed.includes('=')) {
+      const [key, ...rest] = trimmed.split('=');
+      const val = rest.join('=').replace(/^['"]|['"]$/g, '');
+      env[key.trim()] = val;
+    }
+  }
+
+  return env;
+}
+
+function loadProjectEnv() {
+  const mergedEnv = {};
+
+  for (const fileName of ['.env', '.env.development', '.env.production']) {
+    const filePath = path.join(projectRoot, fileName);
+    const fileEnv = loadEnvFile(filePath);
+
+    for (const [key, value] of Object.entries(fileEnv)) {
+      mergedEnv[key] = value;
+    }
+  }
+
+  return mergedEnv;
+}
+
+const projectEnv = loadProjectEnv();
+
 // 1. Determine target provider
 const args = process.argv.slice(2);
 let targetProvider = args.find((arg) => !arg.startsWith('--'));
 
 if (!targetProvider) {
-  targetProvider = process.env.DATABASE_PROVIDER;
+  targetProvider = process.env.DATABASE_PROVIDER || projectEnv.DATABASE_PROVIDER;
 }
 
 if (!targetProvider) {
-  targetProvider = process.env.NODE_ENV === 'production' ? 'mysql' : 'sqlite';
+  const effectiveNodeEnv = process.env.NODE_ENV || projectEnv.NODE_ENV;
+  targetProvider = effectiveNodeEnv === 'production' ? 'mysql' : 'sqlite';
 }
 
 targetProvider = targetProvider.toLowerCase();

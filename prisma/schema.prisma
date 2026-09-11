@@ -1,5 +1,5 @@
 // -------------------------------------------------------------
-// Prisma Schema for Development (SQLite)
+// Prisma Schema for Production (MySQL)
 // -------------------------------------------------------------
 
 generator client {
@@ -7,7 +7,7 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "mysql"
   url      = env("DATABASE_URL")
 }
 
@@ -17,7 +17,7 @@ model User {
   username  String?  @unique
   email     String   @unique
   password  String?
-  image     String?
+  image     String?  @db.Text
   role      String   @default("USER")
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -31,7 +31,7 @@ model User {
 model Quiz {
   id               String        @id @default(cuid())
   title            String
-  description      String?
+  description      String?       @db.Text
   category         String?
   timeLimitMinutes Int?
   isPublished      Boolean       @default(false)
@@ -49,8 +49,8 @@ model Question {
   id          String              @id @default(cuid())
   quizId      String
   header      String?
-  text        String
-  explanation String?
+  text        String              @db.Text
+  explanation String?             @db.Text
   order       Int                 @default(0)
   createdAt   DateTime            @default(now())
   updatedAt   DateTime            @updatedAt
