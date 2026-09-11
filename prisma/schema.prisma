@@ -11,6 +11,22 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model User {
+  id        String   @id @default(cuid())
+  name      String?
+  email     String   @unique
+  password  String?
+  image     String?
+  role      String   @default("USER")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  attempts QuizAttempt[]
+  progress UserQuizProgress[]
+
+  @@map("users")
+}
+
 model Quiz {
   id               String        @id @default(cuid())
   title            String
@@ -21,8 +37,9 @@ model Quiz {
   createdAt        DateTime      @default(now())
   updatedAt        DateTime      @updatedAt
 
-  questions        Question[]
-  attempts         QuizAttempt[]
+  questions    Question[]
+  attempts     QuizAttempt[]
+  userProgress UserQuizProgress[]
 
   @@map("quizzes")
 }
@@ -30,6 +47,7 @@ model Quiz {
 model Question {
   id          String              @id @default(cuid())
   quizId      String
+  header      String?
   text        String
   explanation String?
   order       Int                 @default(0)
@@ -57,16 +75,24 @@ model Option {
 }
 
 model QuizAttempt {
-  id             String              @id @default(cuid())
-  quizId         String
-  score          Int                 @default(0)
-  totalQuestions Int                 @default(0)
-  startedAt      DateTime            @default(now())
-  completedAt    DateTime?
+  id                   String              @id @default(cuid())
+  quizId               String
+  userId               String?
+  score                Int                 @default(0)
+  totalQuestions       Int                 @default(0)
+  correctAnswersCount  Int                 @default(0)
+  currentQuestionIndex Int                 @default(0)
+  status               String              @default("IN_PROGRESS") // IN_PROGRESS, COMPLETED, ABANDONED
+  startedAt            DateTime            @default(now())
+  completedAt          DateTime?
+  timeSpentSeconds     Int?                @default(0)
 
-  quiz           Quiz                @relation(fields: [quizId], references: [id], onDelete: Cascade)
-  answers        QuizAttemptAnswer[]
+  quiz                 Quiz                @relation(fields: [quizId], references: [id], onDelete: Cascade)
+  user                 User?               @relation(fields: [userId], references: [id], onDelete: Cascade)
+  answers              QuizAttemptAnswer[]
 
+  @@index([userId])
+  @@index([quizId])
   @@map("quiz_attempts")
 }
 
@@ -76,11 +102,32 @@ model QuizAttemptAnswer {
   questionId       String
   selectedOptionId String?
   isCorrect        Boolean     @default(false)
+  timeSpentSeconds Int?
   createdAt        DateTime    @default(now())
 
   attempt          QuizAttempt @relation(fields: [attemptId], references: [id], onDelete: Cascade)
   question         Question    @relation(fields: [questionId], references: [id], onDelete: Cascade)
   selectedOption   Option?     @relation(fields: [selectedOptionId], references: [id], onDelete: SetNull)
 
+  @@unique([attemptId, questionId])
   @@map("quiz_attempt_answers")
+}
+
+model UserQuizProgress {
+  id            String   @id @default(cuid())
+  userId        String
+  quizId        String
+  bestScore     Int      @default(0)
+  highestScore  Int      @default(0)
+  attemptsCount Int      @default(0)
+  lastAttemptAt DateTime @default(now())
+  isCompleted   Boolean  @default(false)
+
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  quiz          Quiz     @relation(fields: [quizId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, quizId])
+  @@index([userId])
+  @@index([quizId])
+  @@map("user_quiz_progress")
 }

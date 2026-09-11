@@ -1,0 +1,24 @@
+[
+  {
+    "header": "Question #1 Topic 1",
+    "question": "A solutions architect is designing a solution where users will be directed to a backup static error page if the primary website is unavailable. The primary website'sDNS records are hosted in Amazon Route 53 where their domain is pointing to an Application Load Balancer (ALB).Which configuration should the solutions architect use to meet the company's needs while minimizing changes and infrastructure overhead?",
+    "choices": [
+      "A. Point a Route 53 alias record to an Amazon CloudFront distribution with the ALB as one of its origins. Then, create custom error pages for the distribution.",
+      "B. Set up a Route 53 active-passive failover configuration. Direct traffic to a static error page hosted within an Amazon S3 bucket when Route 53 health checks determine that the ALB endpoint is unhealthy. Most Voted",
+      "C. Update the Route 53 record to use a latency-based routing policy. Add the backup static error page hosted within an Amazon S3 bucket to the record so the traffic is sent to the most responsive endpoints.",
+      "D. Set up a Route 53 active-active configuration with the ALB and an Amazon EC2 instance hosting a static error page as endpoints. Route 53 will only send requests to the instance if the health checks fail for the ALB."
+    ],
+    "correctAnswer": "B"
+  },
+  {
+    "header": "Question #2 Topic 1",
+    "question": "A solutions architect is designing a high performance computing (HPC) workload on Amazon EC2. The EC2 instances need to communicate to each other frequently and require network performance with low latency and high throughput.Which EC2 configuration meets these requirements?",
+    "choices": [
+      "A. Launch the EC2 instances in a cluster placement group in one Availability Zone. Most Voted",
+      "B. Launch the EC2 instances in a spread placement group in one Availability Zone.",
+      "C. Launch the EC2 instances in an Auto Scaling group in two Regions and peer the VPCs.",
+      "D. Launch the EC2 instances in an Auto Scaling group spanning multiple Availability Zones."
+    ],
+    "correctAnswer": "A"
+  }
+]
