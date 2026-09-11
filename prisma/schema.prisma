@@ -1,0 +1,86 @@
+// -------------------------------------------------------------
+// Prisma Schema for Development (SQLite)
+// -------------------------------------------------------------
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Quiz {
+  id               String        @id @default(cuid())
+  title            String
+  description      String?
+  category         String?
+  timeLimitMinutes Int?
+  isPublished      Boolean       @default(false)
+  createdAt        DateTime      @default(now())
+  updatedAt        DateTime      @updatedAt
+
+  questions        Question[]
+  attempts         QuizAttempt[]
+
+  @@map("quizzes")
+}
+
+model Question {
+  id          String              @id @default(cuid())
+  quizId      String
+  text        String
+  explanation String?
+  order       Int                 @default(0)
+  createdAt   DateTime            @default(now())
+  updatedAt   DateTime            @updatedAt
+
+  quiz        Quiz                @relation(fields: [quizId], references: [id], onDelete: Cascade)
+  options     Option[]
+  answers     QuizAttemptAnswer[]
+
+  @@map("questions")
+}
+
+model Option {
+  id         String              @id @default(cuid())
+  questionId String
+  text       String
+  isCorrect  Boolean             @default(false)
+  order      Int                 @default(0)
+
+  question   Question            @relation(fields: [questionId], references: [id], onDelete: Cascade)
+  answers    QuizAttemptAnswer[]
+
+  @@map("options")
+}
+
+model QuizAttempt {
+  id             String              @id @default(cuid())
+  quizId         String
+  score          Int                 @default(0)
+  totalQuestions Int                 @default(0)
+  startedAt      DateTime            @default(now())
+  completedAt    DateTime?
+
+  quiz           Quiz                @relation(fields: [quizId], references: [id], onDelete: Cascade)
+  answers        QuizAttemptAnswer[]
+
+  @@map("quiz_attempts")
+}
+
+model QuizAttemptAnswer {
+  id               String      @id @default(cuid())
+  attemptId        String
+  questionId       String
+  selectedOptionId String?
+  isCorrect        Boolean     @default(false)
+  createdAt        DateTime    @default(now())
+
+  attempt          QuizAttempt @relation(fields: [attemptId], references: [id], onDelete: Cascade)
+  question         Question    @relation(fields: [questionId], references: [id], onDelete: Cascade)
+  selectedOption   Option?     @relation(fields: [selectedOptionId], references: [id], onDelete: SetNull)
+
+  @@map("quiz_attempt_answers")
+}
