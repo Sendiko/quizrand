@@ -1,0 +1,222 @@
+[
+  {
+    "header": "Question #61 Topic 1",
+    "question": "A company has a multi-tier application that runs six front-end web servers in an Amazon EC2 Auto Scaling group in a single Availability Zone behind anApplication Load Balancer (ALB). A solutions architect needs to modify the infrastructure to be highly available without modifying the application.Which architecture should the solutions architect choose that provides high availability?",
+    "choices": [
+      "A. Create an Auto Scaling group that uses three instances across each of two Regions.",
+      "B. Modify the Auto Scaling group to use three instances across each of two Availability Zones.",
+      "C. Create an Auto Scaling template that can be used to quickly create more instances in another Region.",
+      "D. Change the ALB in front of the Amazon EC2 instances in a round-robin configuration to balance traffic to the web tier."
+    ],
+    "correctAnswer": "B"
+  },
+  {
+    "header": "Question #62 Topic 1",
+    "question": "A company runs an application on a group of Amazon Linux EC2 instances. For compliance reasons, the company must retain all application log files for 7 years.The log files will be analyzed by a reporting tool that must access all files concurrently.Which storage solution meets these requirements MOST cost-effectively?",
+    "choices": [
+      "A. Amazon Elastic Block Store (Amazon EBS)",
+      "B. Amazon Elastic File System (Amazon EFS)",
+      "C. Amazon EC2 instance store",
+      "D. Amazon S3 Most Voted"
+    ],
+    "correctAnswer": "D"
+  },
+  {
+    "header": "Question #63 Topic 1",
+    "question": "A media streaming company collects real-time data and stores it in a disk-optimized database system. The company is not getting the expected throughput and wants an in-memory database storage solution that performs faster and provides high availability using data replication.Which database should a solutions architect recommend?",
+    "choices": [
+      "A. Amazon RDS for MySQL",
+      "B. Amazon RDS for PostgreSQL.",
+      "C. Amazon ElastiCache for Redis Most Voted",
+      "D. Amazon ElastiCache for Memcached"
+    ],
+    "correctAnswer": "C"
+  },
+  {
+    "header": "Question #64 Topic 1",
+    "question": "A company hosts its product information webpages on AWS. The existing solution uses multiple Amazon C2 instances behind an Application Load Balancer in anAuto Scaling group. The website also uses a custom DNS name and communicates with HTTPS only using a dedicated SSL certificate. The company is planning a new product launch and wants to be sure that users from around the world have the best possible experience on the new website.What should a solutions architect do to meet these requirements?",
+    "choices": [
+      "A. Redesign the application to use Amazon CloudFront. Most Voted",
+      "B. Redesign the application to use AWS Elastic Beanstalk.",
+      "C. Redesign the application to use a Network Load Balancer.",
+      "D. Redesign the application to use Amazon S3 static website hosting."
+    ],
+    "correctAnswer": "A"
+  },
+  {
+    "header": "Question #65 Topic 1",
+    "question": "A solutions architect is designing the cloud architecture for a new application being deployed on AWS. The process should run in parallel while adding and removing application nodes as needed based on the number of jobs to be processed. The processor application is stateless. The solutions architect must ensure that the application is loosely coupled and the job items are durably stored.Which design should the solutions architect use?",
+    "choices": [
+      "A. Create an Amazon SNS topic to send the jobs that need to be processed. Create an Amazon Machine Image (AMI) that consists of the processor application. Create a launch configuration that uses the AMI. Create an Auto Scaling group using the launch configuration. Set the scaling policy for the Auto Scaling group to add and remove nodes based on CPU usage.",
+      "B. Create an Amazon SQS queue to hold the jobs that need to be processed. Create an Amazon Machine Image (AMI) that consists of the processor application. Create a launch configuration that uses the AMI. Create an Auto Scaling group using the launch configuration. Set the scaling policy for the Auto Scaling group to add and remove nodes based on network usage.",
+      "C. Create an Amazon SQS queue to hold the jobs that need to be processed. Create an Amazon Machine Image (AMI) that consists of the processor application. Create a launch template that uses the AMI. Create an Auto Scaling group using the launch template. Set the scaling policy for the Auto Scaling group to add and remove nodes based on the number of items in the SQS queue. Most Voted",
+      "D. Create an Amazon SNS topic to send the jobs that need to be processed. Create an Amazon Machine Image (AMI) that consists of the processor application. Create a launch template that uses the AMI. Create an Auto Scaling group using the launch template. Set the scaling policy for the Auto Scaling group to add and remove nodes based on the number of messages published to the SNS topic."
+    ],
+    "correctAnswer": "C"
+  },
+  {
+    "header": "Question #66 Topic 1",
+    "question": "A marketing company is storing CSV files in an Amazon S3 bucket for statistical analysis. An application on an Amazon EC2 instance needs permission to efficiently process the CSV data stored in the S3 bucket.Which action will MOST securely grant the EC2 instance access to the S3 bucket?",
+    "choices": [
+      "A. Attach a resource-based policy to the S3 bucket.",
+      "B. Create an IAM user for the application with specific permissions to the S3 bucket.",
+      "C. Associate an IAM role with least privilege permissions to the EC2 instance profile. Most Voted",
+      "D. Store AWS credentials directly on the EC2 instance for applications on the instance to use for API calls."
+    ],
+    "correctAnswer": "C"
+  },
+  {
+    "header": "Question #67 Topic 1",
+    "question": "A company has on-premises servers that run a relational database. The database serves high-read traffic for users in different locations. The company wants to migrate the database to AWS with the least amount of effort. The database solution must support high availability and must not affect the company's current traffic flow.Which solution meets these requirements?",
+    "choices": [
+      "A. Use a database in Amazon RDS with Multi-AZ and at least one read replica. Most Voted",
+      "B. Use a database in Amazon RDS with Multi-AZ and at least one standby replica.",
+      "C. Use databases that are hosted on multiple Amazon EC2 instances in different AWS Regions.",
+      "D. Use databases that are hosted on Amazon EC2 instances behind an Application Load Balancer in different Availability Zones."
+    ],
+    "correctAnswer": "A"
+  },
+  {
+    "header": "Question #68 Topic 1",
+    "question": "A company's application is running on Amazon EC2 instances within an Auto Scaling group behind an Elastic Load Balancer. Based on the application's history, the company anticipates a spike in traffic during a holiday each year. A solutions architect must design a strategy to ensure that the Auto Scaling group proactively increases capacity to minimize any performance impact on application users.Which solution will meet these requirements?",
+    "choices": [
+      "A. Create an Amazon CloudWatch alarm to scale up the EC2 instances when CPU utilization exceeds 90%.",
+      "B. Create a recurring scheduled action to scale up the Auto Scaling group before the expected period of peak demand. Most Voted",
+      "C. Increase the minimum and maximum number of EC2 instances in the Auto Scaling group during the peak demand period.",
+      "D. Configure an Amazon Simple Notification Service (Amazon SNS) notification to send alerts when there are autoscaling:EC2_INSTANCE_LAUNCH events."
+    ],
+    "correctAnswer": "B"
+  },
+  {
+    "header": "Question #69 Topic 1",
+    "question": "A company hosts an application on multiple Amazon EC2 instances. The application processes messages from an Amazon SQS queue, writes for an AmazonRDS table, and deletes -the message from the queue. Occasional duplicate records are found in the RDS table. The SQS queue does not contain any duplicate messages.What should a solutions architect do to ensure messages are being processed once only?",
+    "choices": [
+      "A. Use the CreateQueue API call to create a new queue.",
+      "B. Use the AddPermission API call to add appropriate permissions.",
+      "C. Use the ReceiveMessage API call to set an appropriate wait time.",
+      "D. Use the ChangeMessageVisibility API call to increase the visibility timeout. Most Voted"
+    ],
+    "correctAnswer": "D"
+  },
+  {
+    "header": "Question #70 Topic 1",
+    "question": "An Amazon EC2 administrator created the following policy associated with an IAM group containing several users:What is the effect of this policy?",
+    "choices": [
+      "A. Users can terminate an EC2 instance in any AWS Region except us-east-1.",
+      "B. Users can terminate an EC2 instance with the IP address 10.100.100.1 in the us-east-1 Region.",
+      "C. Users can terminate an EC2 instance in the us-east-1 Region when the user's source IP is 10.100.100.254. Most Voted",
+      "D. Users cannot terminate an EC2 instance in the us-east-1 Region when the user's source IP is 10.100.100.254."
+    ],
+    "correctAnswer": "C"
+  },
+  {
+    "header": "Question #71 Topic 1",
+    "question": "A solutions architect is optimizing a website for an upcoming musical event. Videos of the performances will be streamed in real time and then will be available on demand. The event is expected to attract a global online audience.Which service will improve the performance of both the real-time and on-demand steaming?",
+    "choices": [
+      "A. Amazon CloudFront Most Voted",
+      "B. AWS Global Accelerator",
+      "C. Amazon Route S3",
+      "D. Amazon S3 Transfer Acceleration"
+    ],
+    "correctAnswer": "A"
+  },
+  {
+    "header": "Question #72 Topic 1",
+    "question": "A company has a three-tier image-sharing application. It uses an Amazon EC2 instance for the front-end layer, another for the backend tier, and a third for theMySQL database. A solutions architect has been tasked with designing a solution that is highly available, and requires the least amount of changes to the applicationWhich solution meets these requirements?",
+    "choices": [
+      "A. Use Amazon S3 to host the front-end layer and AWS Lambda functions for the backend layer. Move the database to an Amazon DynamoDB table and use Amazon S3 to store and serve users' images.",
+      "B. Use load-balanced Multi-AZ AWS Elastic Beanstalk environments for the front-end and backend layers. Move the database to an Amazon RDS instance with multiple read replicas to store and serve users' images.",
+      "C. Use Amazon S3 to host the front-end layer and a fleet of Amazon EC2 instances in an Auto Scaling group for the backend layer. Move the database to a memory optimized instance type to store and serve users' images.",
+      "D. Use load-balanced Multi-AZ AWS Elastic Beanstalk environments for the front-end and backend layers. Move the database to an Amazon RDS instance with a Multi-AZ deployment. Use Amazon S3 to store and serve users' images. Most Voted"
+    ],
+    "correctAnswer": "D"
+  },
+  {
+    "header": "Question #73 Topic 1",
+    "question": "A solutions architect is designing a system to analyze the performance of financial markets while the markets are closed. The system will run a series of compute- intensive jobs for 4 hours every night. The time to complete the compute jobs is expected to remain constant, and jobs cannot be interrupted once started. Once completed, the system is expected to run for a minimum of 1 year.Which type of Amazon EC2 instances should be used to reduce the cost of the system?",
+    "choices": [
+      "A. Spot Instances",
+      "B. On-Demand Instances",
+      "C. Standard Reserved Instances",
+      "D. Scheduled Reserved Instances Most Voted"
+    ],
+    "correctAnswer": "D"
+  },
+  {
+    "header": "Question #74 Topic 1",
+    "question": "A company built a food ordering application that captures user data and stores it for future analysis. The application's static front end is deployed on an AmazonEC2 instance. The front-end application sends the requests to the backend application running on separate EC2 instance. The backend application then stores the data in Amazon RDS.What should a solutions architect do to decouple the architecture and make it scalable?",
+    "choices": [
+      "A. Use Amazon S3 to serve the front-end application, which sends requests to Amazon EC2 to execute the backend application. The backend application will process and store the data in Amazon RDS.",
+      "B. Use Amazon S3 to serve the front-end application and write requests to an Amazon Simple Notification Service (Amazon SNS) topic. Subscribe Amazon EC2 instances to the HTTP/HTTPS endpoint of the topic, and process and store the data in Amazon RDS.",
+      "C. Use an EC2 instance to serve the front end and write requests to an Amazon SQS queue. Place the backend instance in an Auto Scaling group, and scale based on the queue depth to process and store the data in Amazon RDS.",
+      "D. Use Amazon S3 to serve the static front-end application and send requests to Amazon API Gateway, which writes the requests to an Amazon SQS queue. Place the backend instances in an Auto Scaling group, and scale based on the queue depth to process and store the data in Amazon RDS. Most Voted"
+    ],
+    "correctAnswer": "D"
+  },
+  {
+    "header": "Question #75 Topic 1",
+    "question": "A solutions architect needs to design a managed storage solution for a company's application that includes high-performance machine learning functionality. This application runs on AWS Fargate and the connected storage needs to have concurrent access to files and deliver high performance.Which storage option should the solutions architect recommend?",
+    "choices": [
+      "A. Create an Amazon S3 bucket for the application and establish an IAM role for Fargate to communicate with Amazon S3.",
+      "B. Create an Amazon FSx for Lustre file share and establish an IAM role that allows Fargate to communicate with FSx for Lustre.",
+      "C. Create an Amazon Elastic File System (Amazon EFS) file share and establish an IAM role that allows Fargate to communicate with Amazon Elastic File System (Amazon EFS). Most Voted",
+      "D. Create an Amazon Elastic Block Store (Amazon EBS) volume for the application and establish an IAM role that allows Fargate to communicate with Amazon Elastic Block Store (Amazon EBS)."
+    ],
+    "correctAnswer": "C"
+  },
+  {
+    "header": "Question #76 Topic 1",
+    "question": "A bicycle sharing company is developing a multi-tier architecture to track the location of its bicycles during peak operating hours. The company wants to use these data points in its existing analytics platform. A solutions architect must determine the most viable multi-tier option to support this architecture. The data points must be accessible from the REST API.Which action meets these requirements for storing and retrieving location data?",
+    "choices": [
+      "A. Use Amazon Athena with Amazon S3.",
+      "B. Use Amazon API Gateway with AWS Lambda. Most Voted",
+      "C. Use Amazon QuickSight with Amazon Redshift.",
+      "D. Use Amazon API Gateway with Amazon Kinesis Data Analytics."
+    ],
+    "correctAnswer": "B"
+  },
+  {
+    "header": "Question #77 Topic 1",
+    "question": "A solutions architect is designing a web application that will run on Amazon EC2 instances behind an Application Load Balancer (ALB). The company strictly requires that the application be resilient against malicious internet activity and attacks, and protect against new common vulnerabilities and exposures.What should the solutions architect recommend?",
+    "choices": [
+      "A. Leverage Amazon CloudFront with the ALB endpoint as the origin.",
+      "B. Deploy an appropriate managed rule for AWS WAF and associate it with the ALB.",
+      "C. Subscribe to AWS Shield Advanced and ensure common vulnerabilities and exposures are blocked. Most Voted",
+      "D. Configure network ACLs and security groups to allow only ports 80 and 443 to access the EC2 instances."
+    ],
+    "correctAnswer": "C"
+  },
+  {
+    "header": "Question #78 Topic 1",
+    "question": "A company has an application that calls AWS Lambda functions. A code review shows that database credentials are stored in a Lambda function's source code, which violates the company's security policy. The credentials must be securely stored and must be automatically rotated on an ongoing basis to meet security policy requirements.What should a solutions architect recommend to meet these requirements in the MOST secure manner?",
+    "choices": [
+      "A. Store the password in AWS CloudHSM. Associate the Lambda function with a role that can use the key ID to retrieve the password from CloudHSM. Use CloudHSM to automatically rotate the password.",
+      "B. Store the password in AWS Secrets Manager. Associate the Lambda function with a role that can use the secret ID to retrieve the password from Secrets Manager. Use Secrets Manager to automatically rotate the password. Most Voted",
+      "C. Store the password in AWS Key Management Service (AWS KMS). Associate the Lambda function with a role that can use the key ID to retrieve the password from AWS KMS. Use AWS KMS to automatically rotate the uploaded password.",
+      "D. Move the database password to an environment variable that is associated with the Lambda function. Retrieve the password from the environment variable by invoking the function. Create a deployment script to automatically rotate the password."
+    ],
+    "correctAnswer": "B"
+  },
+  {
+    "header": "Question #79 Topic 1",
+    "question": "A company is managing health records on-premises. The company must keep these records indefinitely, disable any modifications to the records once they are stored, and granularly audit access at all levels. The chief technology officer (CTO) is concerned because there are already millions of records not being used by any application, and the current infrastructure is running out of space. The CTO has requested a solutions architect design a solution to move existing data and support future records.Which services can the solutions architect recommend to meet these requirements?",
+    "choices": [
+      "A. Use AWS DataSync to move existing data to AWS. Use Amazon S3 to store existing and new data. Enable Amazon S3 object lock and enable AWS CloudTrail with data events. Most Voted",
+      "B. Use AWS Storage Gateway to move existing data to AWS. Use Amazon S3 to store existing and new data. Enable Amazon S3 object lock and enable AWS CloudTrail with management events.",
+      "C. Use AWS DataSync to move existing data to AWS. Use Amazon S3 to store existing and new data. Enable Amazon S3 object lock and enable AWS CloudTrail with management events.",
+      "D. Use AWS Storage Gateway to move existing data to AWS. Use Amazon Elastic Block Store (Amazon EBS) to store existing and new data. Enable Amazon S3 object lock and enable Amazon S3 server access logging."
+    ],
+    "correctAnswer": "A"
+  },
+  {
+    "header": "Question #80 Topic 1",
+    "question": "A company wants to use Amazon S3 for the secondary copy of its on-premises dataset. The company would rarely need to access this copy. The storage solution's cost should be minimal.Which storage solution meets these requirements?",
+    "choices": [
+      "A. S3 Standard",
+      "B. S3 Intelligent-Tiering",
+      "C. S3 Standard-Infrequent Access (S3 Standard-IA)",
+      "D. S3 One Zone-Infrequent Access (S3 One Zone-IA) Most Voted"
+    ],
+    "correctAnswer": "D"
+  }
+]

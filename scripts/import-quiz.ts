@@ -115,43 +115,21 @@ function formatTitleFromFilename(filePath: string): string {
     .replace(/\b\w/g, (char) => char.toUpperCase());
 }
 
-async function main() {
-  const { values, positionals } = parseArgs({
-    options: {
-      file: { type: 'string', short: 'f' },
-      title: { type: 'string', short: 't' },
-      category: { type: 'string', short: 'c' },
-      description: { type: 'string', short: 'd' },
-      timeLimit: { type: 'string', short: 'l' },
-      quizId: { type: 'string', short: 'q' },
-      keepPrefix: { type: 'boolean', default: false },
-      keepMostVoted: { type: 'boolean', default: false },
-      draft: { type: 'boolean', default: false },
-      help: { type: 'boolean', short: 'h', default: false },
-    },
-    allowPositionals: true,
-  });
-
-  if (values.help) {
-    printUsage();
-    process.exit(0);
+async function importQuizFromFile(
+  resolvedPath: string,
+  values: {
+    title?: string;
+    category?: string;
+    description?: string;
+    timeLimit?: string;
+    quizId?: string;
+    keepPrefix: boolean;
+    keepMostVoted: boolean;
+    draft: boolean;
   }
-
-  // Determine file path
-  const rawFilePath = positionals[0] || values.file;
-  if (!rawFilePath) {
-    console.error(`\x1b[31m[quizrand:import] Error: Please provide a JSON file path to import.\x1b[0m\n`);
-    printUsage();
-    process.exit(1);
-  }
-
-  const resolvedPath = path.resolve(process.cwd(), rawFilePath);
-  if (!fs.existsSync(resolvedPath)) {
-    console.error(`\x1b[31m[quizrand:import] Error: File not found at ${resolvedPath}\x1b[0m`);
-    process.exit(1);
-  }
-
+) {
   console.log(`\x1b[36m[quizrand:import] Reading JSON file: ${resolvedPath}\x1b[0m`);
+
   let rawContent: string;
   try {
     rawContent = fs.readFileSync(resolvedPath, 'utf8');
@@ -198,12 +176,7 @@ async function main() {
 
   console.log(`\x1b[32m[quizrand:import] Found ${items.length} questions to import.\x1b[0m`);
 
-  // Target Quiz info
-  const quizTitle =
-    values.title ||
-    fileTitle ||
-    formatTitleFromFilename(resolvedPath);
-
+  const quizTitle = values.title || fileTitle || formatTitleFromFilename(resolvedPath);
   const quizCategory = values.category || fileCategory || 'General';
   const quizDescription =
     values.description ||
@@ -219,7 +192,6 @@ async function main() {
   let quizId = values.quizId;
 
   if (quizId) {
-    // Verify existing quiz
     const existingQuiz = await prisma.quiz.findUnique({ where: { id: quizId } });
     if (!existingQuiz) {
       console.error(`\x1b[31m[quizrand:import] Error: Quiz with ID "${quizId}" not found.\x1b[0m`);
@@ -227,7 +199,6 @@ async function main() {
     }
     console.log(`[quizrand:import] Appending to existing Quiz: "${existingQuiz.title}" (ID: ${existingQuiz.id})`);
   } else {
-    // Create new Quiz
     const newQuiz = await prisma.quiz.create({
       data: {
         title: quizTitle,
@@ -241,7 +212,6 @@ async function main() {
     console.log(`\x1b[32m[quizrand:import] Created new Quiz: "${newQuiz.title}" (ID: ${newQuiz.id})\x1b[0m`);
   }
 
-  // Import questions in a transaction
   console.log(`[quizrand:import] Importing questions and choices...`);
   let totalOptionsCount = 0;
 
@@ -250,7 +220,6 @@ async function main() {
       for (let i = 0; i < items.length; i++) {
         const item = items[i];
 
-        // Determine question order
         let order = i + 1;
         if (typeof item.order === 'number') {
           order = item.order;
@@ -273,7 +242,6 @@ async function main() {
           },
         });
 
-        // Insert options
         for (let cIdx = 0; cIdx < choices.length; cIdx++) {
           const choiceRaw = choices[cIdx];
           const { letter, text } = parseChoice(
@@ -310,6 +278,71 @@ async function main() {
   console.log(`- Questions Saved:  ${items.length}`);
   console.log(`- Choices Saved:    ${totalOptionsCount}`);
   console.log(`- Published Status: ${isPublished ? 'Published' : 'Draft'}`);
+}
+
+async function main() {
+  const { values, positionals } = parseArgs({
+    options: {
+      file: { type: 'string', short: 'f' },
+      title: { type: 'string', short: 't' },
+      category: { type: 'string', short: 'c' },
+      description: { type: 'string', short: 'd' },
+      timeLimit: { type: 'string', short: 'l' },
+      quizId: { type: 'string', short: 'q' },
+      keepPrefix: { type: 'boolean', default: false },
+      keepMostVoted: { type: 'boolean', default: false },
+      draft: { type: 'boolean', default: false },
+      help: { type: 'boolean', short: 'h', default: false },
+    },
+    allowPositionals: true,
+  });
+
+  if (values.help) {
+    printUsage();
+    process.exit(0);
+  }
+
+  const rawFilePath = positionals[0] || values.file;
+  if (!rawFilePath) {
+    console.error(`\x1b[31m[quizrand:import] Error: Please provide a JSON file path to import.\x1b[0m\n`);
+    printUsage();
+    process.exit(1);
+  }
+
+  const resolvedPath = path.resolve(process.cwd(), rawFilePath);
+  if (!fs.existsSync(resolvedPath)) {
+    console.error(`\x1b[31m[quizrand:import] Error: File not found at ${resolvedPath}\x1b[0m`);
+    process.exit(1);
+  }
+
+  const pathStats = fs.statSync(resolvedPath);
+
+  if (pathStats.isDirectory()) {
+    const jsonFiles = fs
+      .readdirSync(resolvedPath)
+      .filter((fileName) => fileName.toLowerCase().endsWith('.json'))
+      .sort((a, b) => a.localeCompare(b, undefined, { numeric: true }));
+
+    if (jsonFiles.length === 0) {
+      console.error(`\x1b[31m[quizrand:import] Error: No JSON files found in directory ${resolvedPath}\x1b[0m`);
+      process.exit(1);
+    }
+
+    console.log(`\x1b[36m[quizrand:import] Importing ${jsonFiles.length} JSON files from directory: ${resolvedPath}\x1b[0m`);
+
+    for (const fileName of jsonFiles) {
+      const filePath = path.join(resolvedPath, fileName);
+      await importQuizFromFile(filePath, {
+        ...values,
+        title: undefined,
+        quizId: undefined,
+      });
+    }
+
+    return;
+  }
+
+  await importQuizFromFile(resolvedPath, values);
 }
 
 main()
