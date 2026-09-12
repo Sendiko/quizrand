@@ -232,7 +232,6 @@ export async function loginUserAction(
   }
 }
 
-export async function logoutUserAction(): Promise<{ success: boolean }> {
+export async function logoutUserAction(): Promise<void> {
   await deleteSession();
-  return { success: true };
 }

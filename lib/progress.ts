@@ -264,7 +264,7 @@ export async function getUserQuizProgress(userId: string, quizId: string) {
  * Retrieves a high-level dashboard summary for a user.
  */
 export async function getUserDashboard(userId: string) {
-  const [user, allProgress, recentAttempts] = await Promise.all([
+  const [user, allProgress, recentAttempts, availableQuizzes] = await Promise.all([
     prisma.user.findUnique({
       where: { id: userId },
       select: { id: true, name: true, email: true, image: true, role: true, createdAt: true },
@@ -278,6 +278,9 @@ export async function getUserDashboard(userId: string) {
       orderBy: { startedAt: 'desc' },
       take: 5,
       include: { quiz: true },
+    }),
+    prisma.quiz.count({
+      where: { isPublished: true },
     }),
   ]);
 
@@ -293,15 +296,38 @@ export async function getUserDashboard(userId: string) {
           allProgress.reduce((sum, p) => sum + p.highestScore, 0) / quizzesCompleted
         )
       : 0;
+  const completionRate = availableQuizzes > 0 ? Math.round((quizzesCompleted / availableQuizzes) * 100) : 0;
+
+  const lastProgress = recentAttempts[0]
+    ? {
+        id: recentAttempts[0].id,
+        quizTitle: recentAttempts[0].quiz.title,
+        status: recentAttempts[0].status,
+        startedAt: recentAttempts[0].startedAt,
+        completedAt: recentAttempts[0].completedAt,
+        score: recentAttempts[0].score,
+        totalQuestions: recentAttempts[0].totalQuestions,
+        correctAnswersCount: recentAttempts[0].correctAnswersCount,
+        percentage:
+          recentAttempts[0].totalQuestions > 0
+            ? Math.round(
+                (recentAttempts[0].correctAnswersCount / recentAttempts[0].totalQuestions) * 100
+              )
+            : 0,
+      }
+    : null;
 
   return {
     user,
     stats: {
+      availableQuizzes,
       quizzesAttempted,
       quizzesCompleted,
       averagePercentageScore: avgScore,
+      completionRate,
     },
     quizzes: allProgress,
     recentAttempts,
+    lastProgress,
   };
 }
