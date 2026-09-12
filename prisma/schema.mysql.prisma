@@ -65,7 +65,7 @@ model Question {
 model Option {
   id         String              @id @default(cuid())
   questionId String
-  text       String
+  text       String              @db.Text
   isCorrect  Boolean             @default(false)
   order      Int                 @default(0)
 
