@@ -7,6 +7,10 @@ First, run the development server:
 ```bash
 npm run dev
 # or
+npm run dev:custom
+# or
+PORT=4000 npm run dev
+# or
 yarn dev
 # or
 pnpm dev
@@ -15,6 +19,20 @@ bun dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+
+To run on a custom port, use either:
+
+```bash
+PORT=4000 npm run dev
+npm run dev:custom
+```
+
+For production, you can also use:
+
+```bash
+PORT=4000 npm run start
+npm run start:custom
+```
 
 You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
