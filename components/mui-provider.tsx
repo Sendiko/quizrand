@@ -27,7 +27,7 @@ const theme = createTheme({
     fontFamily: 'var(--font-geist-sans), sans-serif',
   },
   shape: {
-    borderRadius: 16,
+    borderRadius: 8,
   },
   components: {
     MuiPaper: {

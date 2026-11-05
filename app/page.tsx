@@ -147,7 +147,7 @@ export default async function Home() {
         <AppSidebar currentPath="/" displayName={displayName} email={session.email} />
 
         <div className="flex-1">
-          <Paper component="header" elevation={1} sx={{ mb: 4, p: 3, borderRadius: 4, display: 'flex', flexDirection: { xs: 'column', sm: 'row' }, gap: 2, justifyContent: 'space-between' }}>
+          <Paper component="header" elevation={1} sx={{ mb: 4, p: 3, borderRadius: 2, display: 'flex', flexDirection: { xs: 'column', sm: 'row' }, gap: 2, justifyContent: 'space-between' }}>
             <div>
               <p className="text-sm font-semibold uppercase tracking-[0.2em] text-indigo-600">
                 Dashboard
@@ -161,22 +161,22 @@ export default async function Home() {
           </Paper>
 
           <section className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-            <Card sx={{ p: 2.5, borderRadius: 4 }}>
+            <Card sx={{ p: 2.5, borderRadius: 2 }}>
               <p className="text-sm text-zinc-500">Available quizzes</p>
               <p className="mt-3 text-3xl font-bold">{dashboard.stats.availableQuizzes}</p>
             </Card>
 
-            <Card sx={{ p: 2.5, borderRadius: 4 }}>
+            <Card sx={{ p: 2.5, borderRadius: 2 }}>
               <p className="text-sm text-zinc-500">Quizzes attempted</p>
               <p className="mt-3 text-3xl font-bold">{dashboard.stats.quizzesAttempted}</p>
             </Card>
 
-            <Card sx={{ p: 2.5, borderRadius: 4 }}>
+            <Card sx={{ p: 2.5, borderRadius: 2 }}>
               <p className="text-sm text-zinc-500">Completed quizzes</p>
               <p className="mt-3 text-3xl font-bold">{dashboard.stats.quizzesCompleted}</p>
             </Card>
 
-            <Card sx={{ p: 2.5, borderRadius: 4 }}>
+            <Card sx={{ p: 2.5, borderRadius: 2 }}>
               <p className="text-sm text-zinc-500">Completion rate</p>
               <p className="mt-3 text-3xl font-bold">{dashboard.stats.completionRate}%</p>
             </Card>

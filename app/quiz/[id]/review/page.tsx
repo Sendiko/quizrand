@@ -92,7 +92,7 @@ export default async function QuizReviewPage({ params }: { params: Promise<{ id:
             return (
               <Card
                 key={question.id}
-                sx={{ borderRadius: 4, p: 2.5 }}
+                sx={{ borderRadius: 2, p: 2.5 }}
               >
                 <div className="mb-4 flex items-center justify-between gap-4">
                   <p className="review-muted text-xs font-semibold uppercase tracking-[0.2em]">

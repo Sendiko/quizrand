@@ -15,7 +15,7 @@ export default async function QuizzesPage() {
   if (!session) {
     return (
       <main className="min-h-screen bg-zinc-50 px-4 py-12 text-zinc-900">
-        <Paper sx={{ maxWidth: 720, mx: 'auto', p: 5, textAlign: 'center', borderRadius: 4 }}>
+        <Paper sx={{ maxWidth: 720, mx: 'auto', p: 5, textAlign: 'center', borderRadius: 2 }}>
           <div className="mb-6 inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-indigo-600 text-xl font-bold text-white">
             Q
           </div>
@@ -66,14 +66,14 @@ export default async function QuizzesPage() {
         <AppSidebar currentPath="/quizzes" displayName={session.name || session.username || session.email.split('@')[0]} email={session.email} />
 
         <div className="flex-1">
-          <Paper sx={{ mb: 4, p: 3, borderRadius: 4 }}>
+          <Paper sx={{ mb: 4, p: 3, borderRadius: 2 }}>
             <Typography variant="overline" color="primary">Quizzes</Typography>
               <Typography component="h1" variant="h4" sx={{ fontWeight: 700 }}>Browse available quizzes</Typography>
           </Paper>
 
           <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
             {quizzes.map((quiz) => (
-              <Card key={quiz.id} sx={{ borderRadius: 4, height: '100%', display: 'flex', flexDirection: 'column' }}>
+              <Card key={quiz.id} sx={{ borderRadius: 2, height: '100%', display: 'flex', flexDirection: 'column' }}>
                 <CardContent sx={{ flex: 1, minWidth: 0, p: 2.5 }}>
                   <div className="mb-4 flex min-w-0 items-start justify-between gap-4">
                     <div className="min-w-0">

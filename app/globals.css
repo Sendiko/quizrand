@@ -145,20 +145,20 @@ select:focus-visible {
 }
 
 .rounded-xl {
-  border-radius: 12px;
+  border-radius: 8px;
 }
 
 .rounded-2xl {
-  border-radius: 16px;
+  border-radius: 12px;
 }
 
 .rounded-3xl {
-  border-radius: 28px;
+  border-radius: 16px;
 }
 
 .md3-card {
   border: 1px solid var(--md-outline-variant);
-  border-radius: 28px;
+  border-radius: 16px;
   background: var(--md-surface-container-lowest);
   box-shadow: 0 2px 6px rgb(28 27 32 / 8%);
 }
@@ -169,7 +169,7 @@ select:focus-visible {
   align-items: center;
   justify-content: center;
   border: 0;
-  border-radius: 20px;
+  border-radius: 12px;
   background: var(--md-primary);
   padding: 0 24px;
   color: var(--md-on-primary);

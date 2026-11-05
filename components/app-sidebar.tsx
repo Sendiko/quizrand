@@ -20,7 +20,7 @@ const navItems = [
 
 export function AppSidebar({ currentPath, displayName, email }: AppSidebarProps) {
   return (
-    <Paper component="aside" elevation={1} sx={{ width: '100%', maxWidth: 280, flexShrink: 0, p: 2, borderRadius: 4 }}>
+    <Paper component="aside" elevation={1} sx={{ width: '100%', maxWidth: 280, flexShrink: 0, p: 2, borderRadius: 2 }}>
       <div className="flex flex-col gap-4">
         <div className="flex items-center gap-3 px-1">
           <Avatar sx={{ bgcolor: 'primary.main' }}>Q</Avatar>
@@ -37,7 +37,7 @@ export function AppSidebar({ currentPath, displayName, email }: AppSidebarProps)
                 key={item.href}
                 href={item.href}
                 selected={active}
-                sx={{ borderRadius: 3, mb: 0.5 }}
+                sx={{ borderRadius: 2, mb: 0.5 }}
               >
                 <ListItemText primary={item.label} />
               </ListItemButton>
