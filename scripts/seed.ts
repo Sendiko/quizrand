@@ -1,7 +1,43 @@
+import bcrypt from 'bcryptjs';
 import { prisma } from '../lib/db';
 
 async function seed() {
-  console.log('Seeding initial quiz data...');
+  console.log('Seeding users and initial quiz data...');
+
+  const seedUsers = [
+    { username: 'sendiko', password: 'sendiko', email: 'sendiko@example.com' },
+    { username: 'velarina', password: 'velarina', email: 'velarina@example.com' },
+  ];
+
+  for (const seedUser of seedUsers) {
+    const hashedPassword = await bcrypt.hash(seedUser.password, 10);
+    const existingUser = await prisma.user.findUnique({
+      where: { username: seedUser.username },
+    });
+
+    if (existingUser) {
+      await prisma.user.update({
+        where: { id: existingUser.id },
+        data: {
+          name: seedUser.username,
+          email: seedUser.email,
+          password: hashedPassword,
+        },
+      });
+      console.log(`- Updated user: "${seedUser.username}"`);
+    } else {
+      await prisma.user.create({
+        data: {
+          name: seedUser.username,
+          username: seedUser.username,
+          email: seedUser.email,
+          password: hashedPassword,
+          role: 'USER',
+        },
+      });
+      console.log(`✓ Seeded user: "${seedUser.username}"`);
+    }
+  }
 
   const sampleQuizzes = [
     {
