@@ -3,6 +3,8 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import Checkbox from '@mui/material/Checkbox';
+import FormControlLabel from '@mui/material/FormControlLabel';
 import { getQuestionSelectionLimit } from '@/lib/quiz';
 
 interface QuizPlayerProps {
@@ -508,30 +510,41 @@ export function QuizPlayer({ quiz, activeAttempt }: QuizPlayerProps) {
                   selectionLimit !== null && currentSelection.length >= selectionLimit;
 
                 return (
-                  <button
+                  <div
                     key={option.id}
-                    type="button"
-                    onClick={() => handleSelect(currentQuestion.id, option.id)}
-                    disabled={isSelectionLimitReached && !isSelected}
-                    role="checkbox"
-                    aria-checked={isSelected}
-                    className={`flex w-full items-center justify-between rounded-2xl border p-4 text-left transition ${
+                    className={`flex min-w-0 w-full items-center rounded-2xl border p-3 text-left transition ${
                       isSelected
                         ? 'border-indigo-500 bg-indigo-50'
-                        : 'border-zinc-200 bg-white hover:border-zinc-300 hover:bg-zinc-100 disabled:cursor-not-allowed disabled:opacity-50'
+                        : 'border-zinc-200 bg-white hover:border-zinc-300 hover:bg-zinc-100'
                     }`}
                   >
-                    <span className="text-base font-medium text-zinc-800">{option.text}</span>
-                    <span
-                      className={`inline-flex h-6 w-6 items-center justify-center rounded-full border text-xs font-bold ${
-                        isSelected
-                          ? 'border-indigo-500 bg-indigo-600 text-white'
-                          : 'border-zinc-300 bg-white text-zinc-400'
-                      }`}
-                    >
-                      {isSelected ? '✓' : ''}
-                    </span>
-                  </button>
+                    <FormControlLabel
+                      className="m-0 min-w-0 flex-1"
+                      control={
+                        <Checkbox
+                          checked={isSelected}
+                          disabled={isSelectionLimitReached && !isSelected}
+                          onChange={() => handleSelect(currentQuestion.id, option.id)}
+                          slotProps={{
+                            input: {
+                              'aria-label': option.text,
+                            },
+                          }}
+                        />
+                      }
+                      label={
+                        <span className="block min-w-0 whitespace-normal break-words text-base font-medium text-zinc-800">
+                          {option.text}
+                        </span>
+                      }
+                      sx={{
+                        '& .MuiFormControlLabel-label': {
+                          minWidth: 0,
+                          flex: 1,
+                        },
+                      }}
+                    />
+                  </div>
                 );
               })}
             </div>
