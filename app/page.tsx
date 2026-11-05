@@ -32,34 +32,102 @@ export default async function Home() {
 
   if (!session) {
     return (
-      <main className="min-h-screen bg-zinc-50 px-4 py-12 text-zinc-900">
-        <div className="md3-card mx-auto flex max-w-3xl flex-col items-center justify-center p-8">
-          <div className="mb-6 inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-indigo-600 text-xl font-bold text-white">
-            Q
-          </div>
-
-          <p className="mb-2 text-sm font-semibold uppercase tracking-[0.2em] text-indigo-600">
-            Dashboard
-          </p>
-          <h1 className="text-3xl font-bold tracking-tight">Welcome to QuizRand</h1>
-          <p className="mt-4 max-w-xl text-center text-base text-zinc-600">
-            Sign in to view your dashboard, track quiz completion, and see your latest progress.
-          </p>
-
-          <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-            <Link
-              href="/login"
-              className="inline-flex h-12 items-center justify-center rounded-full bg-indigo-600 px-6 text-sm font-semibold text-white transition hover:bg-indigo-500"
-            >
-              Sign in
+      <main className="min-h-screen overflow-hidden bg-zinc-50 px-4 py-6 text-zinc-900 sm:px-8 sm:py-10">
+        <div className="mx-auto max-w-6xl">
+          <nav className="flex items-center justify-between">
+            <Link href="/" className="flex items-center gap-3">
+              <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-indigo-600 text-lg font-bold text-white">
+                Q
+              </span>
+              <span className="text-xl font-bold tracking-tight">
+                Quiz<span className="text-indigo-600">Rand</span>
+              </span>
             </Link>
-            <Link
-              href="/register"
-              className="inline-flex h-12 items-center justify-center rounded-full border border-zinc-200 bg-zinc-100 px-6 text-sm font-semibold text-zinc-800 transition hover:bg-zinc-200"
-            >
-              Create account
-            </Link>
-          </div>
+            <div className="flex items-center gap-2">
+              <Link href="/login" className="md3-button md3-button-outlined">
+                Sign in
+              </Link>
+              <Link href="/register" className="md3-button hidden sm:inline-flex">
+                Get started
+              </Link>
+            </div>
+          </nav>
+
+          <section className="grid items-center gap-10 py-16 lg:grid-cols-[1.1fr_0.9fr] lg:py-24">
+            <div>
+              <p className="mb-5 inline-flex rounded-full bg-indigo-100 px-4 py-2 text-sm font-semibold text-indigo-700">
+                A calmer way to learn
+              </p>
+              <h1 className="max-w-3xl text-5xl font-bold leading-[1.05] tracking-tight sm:text-6xl">
+                Turn every question into progress.
+              </h1>
+              <p className="mt-6 max-w-xl text-lg leading-8 text-zinc-600">
+                Practice with focused quizzes, understand your results, and build a learning habit
+                that lasts.
+              </p>
+              <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+                <Link href="/register" className="md3-button h-12">
+                  Create your account
+                </Link>
+                <Link href="/login" className="md3-button md3-button-outlined h-12">
+                  I already have an account
+                </Link>
+              </div>
+              <div className="mt-8 flex flex-wrap gap-x-6 gap-y-2 text-sm text-zinc-600">
+                <span>✓ Progress tracking</span>
+                <span>✓ Instant review</span>
+                <span>✓ Flexible practice</span>
+              </div>
+            </div>
+
+            <div className="md3-card relative overflow-hidden bg-indigo-100 p-6 sm:p-8">
+              <div className="absolute -right-16 -top-16 h-40 w-40 rounded-full bg-indigo-200/80" />
+              <div className="relative">
+                <div className="mb-8 flex items-center justify-between">
+                  <div>
+                    <p className="text-sm font-semibold text-indigo-700">Today&apos;s focus</p>
+                    <h2 className="mt-1 text-2xl font-bold text-indigo-950">Keep your streak going</h2>
+                  </div>
+                  <span className="flex h-12 w-12 items-center justify-center rounded-full bg-indigo-600 text-xl text-white">
+                    ★
+                  </span>
+                </div>
+                <div className="rounded-2xl bg-white/80 p-4">
+                  <div className="flex items-center justify-between text-sm font-semibold">
+                    <span>Weekly progress</span>
+                    <span className="text-indigo-700">72%</span>
+                  </div>
+                  <div className="mt-3 h-3 overflow-hidden rounded-full bg-indigo-100">
+                    <div className="h-full w-[72%] rounded-full bg-indigo-600" />
+                  </div>
+                  <p className="mt-4 text-sm text-zinc-600">Small sessions add up. Take one quiz today.</p>
+                </div>
+                <div className="mt-4 grid grid-cols-2 gap-3">
+                  <div className="rounded-2xl bg-white/70 p-4">
+                    <p className="text-xs text-zinc-600">Quizzes completed</p>
+                    <p className="mt-1 text-2xl font-bold">24</p>
+                  </div>
+                  <div className="rounded-2xl bg-white/70 p-4">
+                    <p className="text-xs text-zinc-600">Current streak</p>
+                    <p className="mt-1 text-2xl font-bold">7 days</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section className="grid gap-4 border-t border-zinc-200 py-10 md:grid-cols-3">
+            {[
+              ['Practice with purpose', 'Choose focused quizzes and spend your time where it matters.'],
+              ['Learn from every result', 'Review correct answers, explanations, and the choices you made.'],
+              ['See your momentum', 'Track attempts and completion so progress stays visible.'],
+            ].map(([title, description]) => (
+              <article key={title} className="rounded-2xl bg-white/60 p-5">
+                <h2 className="font-bold">{title}</h2>
+                <p className="mt-2 text-sm leading-6 text-zinc-600">{description}</p>
+              </article>
+            ))}
+          </section>
         </div>
       </main>
     );
