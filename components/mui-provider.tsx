@@ -22,6 +22,40 @@ const theme = createTheme({
     borderRadius: 16,
   },
   components: {
+    MuiOutlinedInput: {
+      styleOverrides: {
+        root: {
+          backgroundColor: 'var(--md-surface-container-lowest)',
+          '& input': {
+            color: 'var(--md-on-surface)',
+          },
+          '& input::placeholder': {
+            color: 'var(--md-on-surface-variant)',
+            opacity: 0.9,
+          },
+          '& .MuiOutlinedInput-notchedOutline': {
+            borderColor: 'var(--md-outline)',
+          },
+          '&:hover .MuiOutlinedInput-notchedOutline': {
+            borderColor: 'var(--md-on-surface-variant)',
+          },
+          '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+            borderColor: 'var(--md-primary)',
+            borderWidth: 2,
+          },
+        },
+      },
+    },
+    MuiInputLabel: {
+      styleOverrides: {
+        root: {
+          color: 'var(--md-on-surface-variant)',
+          '&.Mui-focused': {
+            color: 'var(--md-primary)',
+          },
+        },
+      },
+    },
     MuiCheckbox: {
       styleOverrides: {
         root: {

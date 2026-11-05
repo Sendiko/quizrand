@@ -213,31 +213,8 @@ select:focus-visible {
   outline: none;
 }
 
-#login-form input,
-#register-form input,
-select {
-  border: 1px solid var(--md-outline);
-  border-radius: 4px;
-  background: var(--md-surface-container-lowest);
-}
-
-#login-form input,
-#register-form input,
 select,
 select option {
   color: var(--md-on-surface);
-}
-
-#login-form input::placeholder,
-#register-form input::placeholder {
-  color: var(--md-on-surface-variant);
-  opacity: 0.9;
-}
-
-@media (prefers-color-scheme: dark) {
-  #login-form input,
-  #register-form input,
-  select {
-    background: var(--md-surface-container-high);
-  }
+  background: var(--md-surface-container-lowest);
 }
