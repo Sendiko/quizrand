@@ -82,13 +82,13 @@ export default async function QuizReviewPage({ params }: { params: Promise<{ id:
 
         <div className="space-y-5">
           {quiz.questions.map((question, index) => {
-            const answer = attempt.answers.find((item) => item.questionId === question.id);
-            const selectedOption =
-              answer?.selectedOptionId && question.options.some((option) => option.id === answer.selectedOptionId)
-                ? question.options.find((option) => option.id === answer.selectedOptionId)
-                : null;
-            const correctOption = question.options.find((option) => option.isCorrect);
-            const isCorrect = answer?.isCorrect ?? false;
+            const answers = attempt.answers.filter((item) => item.questionId === question.id);
+            const selectedOptionIds = new Set(
+              answers.flatMap((answer) => (answer.selectedOptionId ? [answer.selectedOptionId] : []))
+            );
+            const selectedOptions = question.options.filter((option) => selectedOptionIds.has(option.id));
+            const correctOptions = question.options.filter((option) => option.isCorrect);
+            const isCorrect = answers.length > 0 && answers.every((answer) => answer.isCorrect);
 
             return (
               <div
@@ -120,8 +120,8 @@ export default async function QuizReviewPage({ params }: { params: Promise<{ id:
 
                 <div className="mt-5 space-y-3">
                   {question.options.map((option) => {
-                    const isSelected = option.id === selectedOption?.id;
-                    const isCorrectOption = option.id === correctOption?.id;
+                    const isSelected = selectedOptionIds.has(option.id);
+                    const isCorrectOption = option.isCorrect;
 
                     const optionStyles = isCorrectOption
                       ? 'border-emerald-500 bg-emerald-50'
@@ -136,7 +136,7 @@ export default async function QuizReviewPage({ params }: { params: Promise<{ id:
                       >
                         <span className="text-base font-medium text-zinc-800">{option.text}</span>
                         <span className="text-xs font-semibold uppercase tracking-[0.16em] text-zinc-500">
-                          {isCorrectOption ? 'Correct answer' : isSelected ? 'Your choice' : ''}
+                              {isCorrectOption ? 'Correct answer' : isSelected ? 'Your choice' : ''}
                         </span>
                       </div>
                     );
@@ -146,11 +146,13 @@ export default async function QuizReviewPage({ params }: { params: Promise<{ id:
                 <div className="mt-5 rounded-2xl border border-zinc-200 bg-white p-4">
                   <p className="text-sm text-zinc-700">
                     <span className="font-semibold text-zinc-900">Your answer:</span>{' '}
-                    {selectedOption ? selectedOption.text : 'No answer selected'}
+                    {selectedOptions.length > 0
+                      ? selectedOptions.map((option) => option.text).join(', ')
+                      : 'No answer selected'}
                   </p>
                   <p className="mt-2 text-sm text-zinc-700">
                     <span className="font-semibold text-zinc-900">Correct answer:</span>{' '}
-                    {correctOption?.text}
+                    {correctOptions.map((option) => option.text).join(', ')}
                   </p>
                   {question.explanation ? (
                     <p className="mt-3 text-sm text-zinc-600">

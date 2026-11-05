@@ -101,19 +101,14 @@ export async function recordQuizAnswer({
 
   const isCorrect = option.isCorrect;
 
-  // Save or update the answer
-  const answer = await prisma.quizAttemptAnswer.upsert({
-    where: {
-      attemptId_questionId: { attemptId, questionId },
-    },
-    create: {
+  await prisma.quizAttemptAnswer.deleteMany({
+    where: { attemptId, questionId },
+  });
+
+  const answer = await prisma.quizAttemptAnswer.create({
+    data: {
       attemptId,
       questionId,
-      selectedOptionId,
-      isCorrect,
-      timeSpentSeconds: timeSpentSeconds || null,
-    },
-    update: {
       selectedOptionId,
       isCorrect,
       timeSpentSeconds: timeSpentSeconds || null,
@@ -125,7 +120,7 @@ export async function recordQuizAnswer({
     where: { attemptId },
   });
 
-  const correctCount = allAnswers.filter((a) => a.isCorrect).length;
+  const correctCount = new Set(allAnswers.filter((a) => a.isCorrect).map((a) => a.questionId)).size;
   const totalAnswered = allAnswers.length;
 
   await prisma.quizAttempt.update({
@@ -169,7 +164,7 @@ export async function completeQuizAttempt({
   }
 
   const totalQuestions = attempt.quiz._count.questions || attempt.totalQuestions;
-  const correctCount = attempt.answers.filter((a) => a.isCorrect).length;
+  const correctCount = new Set(attempt.answers.filter((a) => a.isCorrect).map((a) => a.questionId)).size;
   const percentageScore = totalQuestions > 0 ? Math.round((correctCount / totalQuestions) * 100) : 0;
 
   const completedAttempt = await prisma.quizAttempt.update({

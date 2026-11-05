@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { getQuestionSelectionLimit } from '@/lib/quiz';
 
 interface QuizPlayerProps {
   quiz: {
@@ -46,7 +47,7 @@ interface QuizPlayerProps {
 const STORAGE_PREFIX = 'quizrand-active-quiz';
 const DEFAULT_TIME_OPTIONS = [0, 60, 90];
 
-type QuizAnswerState = Record<string, string | null>;
+type QuizAnswerState = Record<string, string[]>;
 
 type PersistedState = {
   selectedTimer: number;
@@ -93,7 +94,16 @@ function getPersistedState(quizId: string): PersistedState | null {
       return {
         selectedTimer: parsed.selectedTimer,
         timeLeft: parsed.timeLeft,
-        answers: parsed.answers,
+        answers: Object.fromEntries(
+          Object.entries(parsed.answers).map(([questionId, selectedOptions]) => [
+            questionId,
+            Array.isArray(selectedOptions)
+              ? selectedOptions.filter((optionId): optionId is string => typeof optionId === 'string')
+              : typeof selectedOptions === 'string'
+                ? [selectedOptions]
+                : [],
+          ])
+        ),
         currentQuestionIndex: typeof parsed.currentQuestionIndex === 'number' ? parsed.currentQuestionIndex : 0,
         savedAt: parsed.savedAt ?? Date.now(),
       };
@@ -120,7 +130,7 @@ function buildAnswersFromAttempt(attempt: QuizPlayerProps['activeAttempt']) {
 
   return attempt.answers.reduce<QuizAnswerState>((acc, answer) => {
     if (answer.selectedOptionId) {
-      acc[answer.questionId] = answer.selectedOptionId;
+      acc[answer.questionId] = [...(acc[answer.questionId] ?? []), answer.selectedOptionId];
     }
 
     return acc;
@@ -247,12 +257,29 @@ export function QuizPlayer({ quiz, activeAttempt }: QuizPlayerProps) {
   const answeredCount = Object.keys(selectedOptions).length;
   const progressPercent = Math.round((answeredCount / quiz.questions.length) * 100);
   const currentQuestion = quiz.questions[currentQuestionIndex] ?? quiz.questions[0];
+  const currentSelection = selectedOptions[currentQuestion.id] ?? [];
+  const selectionLimit = getQuestionSelectionLimit(currentQuestion.text);
 
   const handleSelect = (questionId: string, optionId: string) => {
-    setSelectedOptions((previous) => ({
-      ...previous,
-      [questionId]: optionId,
-    }));
+    setSelectedOptions((previous) => {
+      const currentSelection = previous[questionId] ?? [];
+      const selectionLimit = getQuestionSelectionLimit(
+        quiz.questions.find((question) => question.id === questionId)?.text ?? ''
+      );
+
+      if (!currentSelection.includes(optionId) && selectionLimit !== null && currentSelection.length >= selectionLimit) {
+        return previous;
+      }
+
+      const nextSelection = currentSelection.includes(optionId)
+        ? currentSelection.filter((selectedId) => selectedId !== optionId)
+        : [...currentSelection, optionId];
+
+      return {
+        ...previous,
+        [questionId]: nextSelection,
+      };
+    });
   };
 
   const handleTimerOptionChange = (option: number) => {
@@ -467,20 +494,31 @@ export function QuizPlayer({ quiz, activeAttempt }: QuizPlayerProps) {
             </div>
 
             <h2 className="text-xl font-bold leading-tight text-zinc-900">{currentQuestion.text}</h2>
+            {selectionLimit !== null ? (
+              <p className="mt-3 text-sm font-medium text-indigo-700">
+                Select {selectionLimit} answer{selectionLimit === 1 ? '' : 's'}.
+                {currentSelection.length > 0 ? ` ${currentSelection.length}/${selectionLimit} selected.` : ''}
+              </p>
+            ) : null}
 
             <div className="mt-5 space-y-3">
               {currentQuestion.options.map((option) => {
-                const isSelected = selectedOptions[currentQuestion.id] === option.id;
+                const isSelected = selectedOptions[currentQuestion.id]?.includes(option.id) ?? false;
+                const isSelectionLimitReached =
+                  selectionLimit !== null && currentSelection.length >= selectionLimit;
 
                 return (
                   <button
                     key={option.id}
                     type="button"
                     onClick={() => handleSelect(currentQuestion.id, option.id)}
+                    disabled={isSelectionLimitReached && !isSelected}
+                    role="checkbox"
+                    aria-checked={isSelected}
                     className={`flex w-full items-center justify-between rounded-2xl border p-4 text-left transition ${
                       isSelected
                         ? 'border-indigo-500 bg-indigo-50'
-                        : 'border-zinc-200 bg-white hover:border-zinc-300 hover:bg-zinc-100'
+                        : 'border-zinc-200 bg-white hover:border-zinc-300 hover:bg-zinc-100 disabled:cursor-not-allowed disabled:opacity-50'
                     }`}
                   >
                     <span className="text-base font-medium text-zinc-800">{option.text}</span>
@@ -532,7 +570,7 @@ export function QuizPlayer({ quiz, activeAttempt }: QuizPlayerProps) {
             <div className="grid grid-cols-3 gap-2 sm:grid-cols-4">
               {quiz.questions.map((question, index) => {
                 const isCurrent = index === currentQuestionIndex;
-                const isAnswered = Boolean(selectedOptions[question.id]);
+                const isAnswered = (selectedOptions[question.id]?.length ?? 0) > 0;
 
                 return (
                   <button

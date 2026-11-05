@@ -54,42 +54,40 @@ export async function POST(request: Request) {
 
     const totalQuestions = await prisma.question.count({ where: { quizId } });
 
-    if (Object.keys(answerMap).length > 0) {
-      for (const [questionId, selectedOptionId] of Object.entries(answerMap)) {
-        if (!selectedOptionId || typeof selectedOptionId !== 'string') {
-          continue;
-        }
+    for (const [questionId, selectedOptionValue] of Object.entries(answerMap)) {
+      const selectedOptionIds = Array.isArray(selectedOptionValue)
+        ? selectedOptionValue.filter((optionId): optionId is string => typeof optionId === 'string')
+        : typeof selectedOptionValue === 'string'
+          ? [selectedOptionValue]
+          : [];
 
-        const option = await prisma.option.findFirst({
-          where: {
-            id: selectedOptionId,
-            questionId,
-          },
-        });
+      await prisma.quizAttemptAnswer.deleteMany({
+        where: { attemptId: attempt.id, questionId },
+      });
 
-        if (!option) {
-          continue;
-        }
-
-        await prisma.quizAttemptAnswer.upsert({
-          where: {
-            attemptId_questionId: {
-              attemptId: attempt.id,
-              questionId,
-            },
-          },
-          create: {
-            attemptId: attempt.id,
-            questionId,
-            selectedOptionId,
-            isCorrect: option.isCorrect,
-          },
-          update: {
-            selectedOptionId,
-            isCorrect: option.isCorrect,
-          },
-        });
+      if (selectedOptionIds.length === 0) {
+        continue;
       }
+
+      const options = await prisma.option.findMany({
+        where: { id: { in: selectedOptionIds }, questionId },
+      });
+      const correctOptionCount = await prisma.option.count({
+        where: { questionId, isCorrect: true },
+      });
+      const isCorrect =
+        options.length === selectedOptionIds.length &&
+        options.length === correctOptionCount &&
+        options.every((option) => option.isCorrect);
+
+      await prisma.quizAttemptAnswer.createMany({
+        data: options.map((option) => ({
+          attemptId: attempt.id,
+          questionId,
+          selectedOptionId: option.id,
+          isCorrect,
+        })),
+      });
     }
 
     const updatedAttempt = await completeQuizAttempt({
