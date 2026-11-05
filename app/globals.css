@@ -1,8 +1,35 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --md-primary: #63568f;
+  --md-on-primary: #ffffff;
+  --md-primary-container: #e8deff;
+  --md-on-primary-container: #4b3e76;
+  --md-primary-fixed-dim: #cdbdff;
+  --md-secondary: #615b71;
+  --md-secondary-container: #e7def8;
+  --md-on-secondary-container: #494458;
+  --md-tertiary: #7d5261;
+  --md-tertiary-container: #ffd9e4;
+  --md-on-tertiary-container: #633b4a;
+  --md-error: #ba1a1a;
+  --md-error-container: #ffdad6;
+  --md-on-error-container: #93000a;
+  --md-background: #fdf7ff;
+  --md-on-background: #1c1b20;
+  --md-surface: #fdf7ff;
+  --md-on-surface: #1c1b20;
+  --md-on-surface-variant: #48454e;
+  --md-outline: #79757f;
+  --md-outline-variant: #cac4cf;
+  --md-surface-container-low: #f7f2fa;
+  --md-surface-container: #f2ecf4;
+  --md-surface-container-high: #ece6ee;
+  --md-surface-container-highest: #e6e1e9;
+  --md-surface-container-lowest: #ffffff;
+
+  --background: var(--md-background);
+  --foreground: var(--md-on-background);
 }
 
 @theme inline {
@@ -10,17 +37,121 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+
+  --color-indigo-50: var(--md-primary-container);
+  --color-indigo-100: var(--md-primary-container);
+  --color-indigo-200: var(--md-primary-fixed-dim);
+  --color-indigo-500: var(--md-primary);
+  --color-indigo-600: var(--md-primary);
+  --color-indigo-700: var(--md-on-primary-container);
+
+  --color-blue-500: var(--md-primary);
+  --color-blue-600: var(--md-primary);
+
+  --color-zinc-50: var(--md-surface-container-low);
+  --color-zinc-100: var(--md-surface-container);
+  --color-zinc-200: var(--md-outline-variant);
+  --color-zinc-300: var(--md-outline);
+  --color-zinc-400: var(--md-outline);
+  --color-zinc-500: var(--md-on-surface-variant);
+  --color-zinc-600: var(--md-on-surface-variant);
+  --color-zinc-700: var(--md-on-surface);
+  --color-zinc-800: var(--md-on-surface);
+  --color-zinc-900: var(--md-on-surface);
+
+  --color-emerald-50: #e8f5ed;
+  --color-emerald-100: #ccebd8;
+  --color-emerald-300: #79b98d;
+  --color-emerald-500: #267343;
+  --color-emerald-600: #1f6338;
+  --color-emerald-700: #18502d;
+
+  --color-rose-50: var(--md-error-container);
+  --color-rose-100: var(--md-error-container);
+  --color-rose-200: #f5b8b2;
+  --color-rose-400: #c94f48;
+  --color-rose-500: var(--md-error);
+  --color-rose-600: var(--md-error);
+  --color-rose-700: var(--md-on-error-container);
+
+  --color-amber-50: #fff3dc;
+  --color-amber-100: #ffe2af;
+  --color-amber-500: #805500;
+  --color-amber-700: #5f4000;
+  --color-white: var(--md-surface-container-lowest);
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --md-primary: #cdbdff;
+    --md-on-primary: #34275e;
+    --md-primary-container: #4b3e76;
+    --md-on-primary-container: #e8deff;
+    --md-primary-fixed-dim: #cdbdff;
+    --md-secondary: #cbc3dc;
+    --md-secondary-container: #494458;
+    --md-on-secondary-container: #e7def8;
+    --md-tertiary: #eeb8ca;
+    --md-tertiary-container: #633b4a;
+    --md-on-tertiary-container: #ffd9e4;
+    --md-error: #ffb4ab;
+    --md-error-container: #93000a;
+    --md-on-error-container: #ffdad6;
+    --md-background: #141318;
+    --md-on-background: #e6e1e9;
+    --md-surface: #141318;
+    --md-on-surface: #e6e1e9;
+    --md-on-surface-variant: #c9c4d0;
+    --md-outline: #938f99;
+    --md-outline-variant: #48454e;
+    --md-surface-container-low: #1c1b20;
+    --md-surface-container: #201f24;
+    --md-surface-container-high: #2b292f;
+    --md-surface-container-highest: #36343a;
+    --md-surface-container-lowest: #0f0d13;
+    --background: var(--md-background);
+    --foreground: var(--md-on-background);
   }
+}
+
+* {
+  border-color: var(--md-outline-variant);
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-geist-sans), sans-serif;
+}
+
+button,
+a,
+input,
+select {
+  -webkit-tap-highlight-color: transparent;
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible {
+  outline: 3px solid color-mix(in srgb, var(--md-primary) 38%, transparent);
+  outline-offset: 2px;
+}
+
+::selection {
+  background: var(--md-primary-container);
+  color: var(--md-on-primary-container);
+}
+
+.rounded-xl {
+  border-radius: 12px;
+}
+
+.rounded-2xl {
+  border-radius: 16px;
+}
+
+.rounded-3xl {
+  border-radius: 28px;
 }
