@@ -55,10 +55,7 @@ export function DashboardAppBar({ displayName, email, availableQuizzes, title, c
             <MenuIcon />
           </IconButton>
           <div className="min-w-0 flex-1">
-            <Typography variant="overline" color="primary">QuizRand</Typography>
-            <Typography component="h1" variant="h6" sx={{ fontWeight: 700, lineHeight: 1.2 }} noWrap>
-              {title}
-            </Typography>
+            <Typography component="h1" sx={{ fontWeight: 700, lineHeight: 1.2 }} color="primary">QuizRand</Typography>
           </div>
           <div className="hidden w-full max-w-sm items-center rounded-xl bg-[var(--md-surface-container-high)] px-3 sm:flex">
             <SearchIcon sx={{ color: 'var(--md-on-surface-variant)' }} />
