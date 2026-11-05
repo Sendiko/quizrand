@@ -1,4 +1,3 @@
-import Link from 'next/link';
 import { AppSidebar } from '@/components/app-sidebar';
 import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
@@ -25,8 +24,8 @@ export default async function QuizzesPage() {
             You need to be logged in to see the available quizzes and continue learning.
           </Typography>
           <div className="mt-8 flex justify-center gap-3">
-            <Button component={Link} href="/login" variant="contained">Sign in</Button>
-            <Button component={Link} href="/register" variant="outlined">Create account</Button>
+            <Button href="/login" variant="contained">Sign in</Button>
+            <Button href="/register" variant="outlined">Create account</Button>
           </div>
         </Paper>
       </main>
@@ -100,12 +99,12 @@ export default async function QuizzesPage() {
                 </div>
                 </CardContent>
                 <CardActions>
-                  <Button component={Link} href={`/quiz/${quiz.id}`} variant="contained">
+                  <Button href={`/quiz/${quiz.id}`} variant="contained">
                     {completedQuizIds.has(quiz.id) ? 'Retake quiz' : 'Start quiz'}
                   </Button>
 
                   {completedQuizIds.has(quiz.id) ? (
-                    <Button component={Link} href={`/quiz/${quiz.id}/review`} variant="outlined">Review</Button>
+                    <Button href={`/quiz/${quiz.id}/review`} variant="outlined">Review</Button>
                   ) : null}
                 </CardActions>
               </Card>

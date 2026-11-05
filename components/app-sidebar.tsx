@@ -1,4 +1,3 @@
-import Link from 'next/link';
 import { logoutUserAction } from '@/app/actions/auth';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
@@ -36,7 +35,6 @@ export function AppSidebar({ currentPath, displayName, email }: AppSidebarProps)
             return (
               <ListItemButton
                 key={item.href}
-                component={Link}
                 href={item.href}
                 selected={active}
                 sx={{ borderRadius: 3, mb: 0.5 }}

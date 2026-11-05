@@ -1,4 +1,3 @@
-import Link from 'next/link';
 import { notFound, redirect } from 'next/navigation';
 import { prisma } from '@/lib/db';
 import { getSession } from '@/lib/session';
@@ -72,7 +71,6 @@ export default async function QuizReviewPage({ params }: { params: Promise<{ id:
             <Chip color="primary" label={`${attempt.correctAnswersCount}/${totalQuestions} correct`} />
             <Chip color="success" label={`${percentageScore}% score`} />
             <Button
-              component={Link}
               href="/quizzes"
               variant="outlined"
             >
