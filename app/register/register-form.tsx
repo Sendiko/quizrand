@@ -7,6 +7,10 @@ import Button from '@mui/material/Button';
 import LinearProgress from '@mui/material/LinearProgress';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
+import IconButton from '@mui/material/IconButton';
+import InputAdornment from '@mui/material/InputAdornment';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import VisibilityIcon from '@mui/icons-material/Visibility';
 import { registerUserAction, type RegisterActionResult } from '@/app/actions/auth';
 
 function calculatePasswordStrength(password: string) {
@@ -29,6 +33,7 @@ export default function RegisterForm() {
     null
   );
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const strength = calculatePasswordStrength(password);
 
   if (state?.success && state.user) {
@@ -78,7 +83,7 @@ export default function RegisterForm() {
         id="register-password"
         name="password"
         label="Password"
-        type="password"
+        type={showPassword ? 'text' : 'password'}
         autoComplete="new-password"
         required
         fullWidth
@@ -87,6 +92,22 @@ export default function RegisterForm() {
         onChange={(event) => setPassword(event.target.value)}
         error={Boolean(state?.errors?.password)}
         helperText={state?.errors?.password?.[0]}
+        slotProps={{
+          input: {
+            endAdornment: (
+              <InputAdornment position="end">
+                <IconButton
+                  type="button"
+                  onClick={() => setShowPassword((value) => !value)}
+                  aria-label={showPassword ? 'Hide password' : 'Show password'}
+                  edge="end"
+                >
+                  {showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
+                </IconButton>
+              </InputAdornment>
+            ),
+          },
+        }}
       />
       <div className="flex flex-col gap-1">
         <div className="flex justify-between">

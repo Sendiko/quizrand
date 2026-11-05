@@ -1,8 +1,9 @@
 import Link from 'next/link';
 import { AppSidebar } from '@/components/app-sidebar';
+import AppBar from '@mui/material/AppBar';
 import Card from '@mui/material/Card';
 import Chip from '@mui/material/Chip';
-import Paper from '@mui/material/Paper';
+import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import { getUserDashboard } from '@/lib/progress';
 import { getSession } from '@/lib/session';
@@ -147,18 +148,36 @@ export default async function Home() {
         <AppSidebar currentPath="/" displayName={displayName} email={session.email} />
 
         <div className="flex-1">
-          <Paper component="header" elevation={1} sx={{ mb: 4, p: 3, borderRadius: 2, display: 'flex', flexDirection: { xs: 'column', sm: 'row' }, gap: 2, justifyContent: 'space-between' }}>
-            <div>
-              <p className="text-sm font-semibold uppercase tracking-[0.2em] text-indigo-600">
-                Dashboard
-              </p>
-              <Typography component="h1" variant="h4" sx={{ mt: 1, fontWeight: 700 }}>
-                Welcome back, {displayName}
-              </Typography>
-            </div>
-
-            <Chip color="primary" label={`${dashboard.stats.availableQuizzes} available quizzes`} />
-          </Paper>
+          <AppBar
+            component="header"
+            position="static"
+            elevation={1}
+            sx={{
+              mb: 4,
+              borderRadius: 2,
+              backgroundColor: 'var(--md-surface-container-lowest)',
+              color: 'var(--md-on-surface)',
+            }}
+          >
+            <Toolbar
+              sx={{
+                minHeight: 112,
+                flexDirection: { xs: 'column', sm: 'row' },
+                alignItems: { xs: 'flex-start', sm: 'center' },
+                justifyContent: 'space-between',
+                gap: 2,
+                p: 3,
+              }}
+            >
+              <div>
+                <Typography variant="overline" color="primary">Dashboard</Typography>
+                <Typography component="h1" variant="h4" sx={{ mt: 0.5, fontWeight: 700 }}>
+                  Welcome back, {displayName}
+                </Typography>
+              </div>
+              <Chip color="primary" label={`${dashboard.stats.availableQuizzes} available quizzes`} />
+            </Toolbar>
+          </AppBar>
 
           <section className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
             <Card sx={{ p: 2.5, borderRadius: 2 }}>

@@ -6,7 +6,10 @@ import Alert from '@mui/material/Alert';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
+import IconButton from '@mui/material/IconButton';
 import InputAdornment from '@mui/material/InputAdornment';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import VisibilityIcon from '@mui/icons-material/Visibility';
 import { loginUserAction, type LoginActionResult } from '@/app/actions/auth';
 
 export default function LoginForm() {
@@ -62,14 +65,14 @@ export default function LoginForm() {
           input: {
             endAdornment: (
               <InputAdornment position="end">
-                <Button
+                <IconButton
                   type="button"
-                  size="small"
                   onClick={() => setShowPassword((value) => !value)}
                   aria-label={showPassword ? 'Hide password' : 'Show password'}
+                  edge="end"
                 >
-                  {showPassword ? 'Hide' : 'Show'}
-                </Button>
+                  {showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
+                </IconButton>
               </InputAdornment>
             ),
           },

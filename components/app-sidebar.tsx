@@ -1,10 +1,10 @@
 import { logoutUserAction } from '@/app/actions/auth';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
+import Drawer from '@mui/material/Drawer';
 import List from '@mui/material/List';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
-import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 
 interface AppSidebarProps {
@@ -20,8 +20,25 @@ const navItems = [
 
 export function AppSidebar({ currentPath, displayName, email }: AppSidebarProps) {
   return (
-    <Paper component="aside" elevation={1} sx={{ width: '100%', maxWidth: 280, flexShrink: 0, p: 2, borderRadius: 2 }}>
-      <div className="flex flex-col gap-4">
+    <Drawer
+      variant="permanent"
+      sx={{
+        width: 280,
+        flexShrink: 0,
+        display: { xs: 'none', lg: 'block' },
+        '& .MuiDrawer-paper': {
+          position: 'static',
+          boxSizing: 'border-box',
+          width: 280,
+          border: 0,
+          borderRadius: 2,
+          p: 2,
+          backgroundColor: 'var(--md-surface-container-lowest)',
+          color: 'var(--md-on-surface)',
+        },
+      }}
+    >
+      <div className="flex min-h-full flex-col gap-4">
         <div className="flex items-center gap-3 px-1">
           <Avatar sx={{ bgcolor: 'primary.main' }}>Q</Avatar>
           <div>
@@ -54,6 +71,6 @@ export function AppSidebar({ currentPath, displayName, email }: AppSidebarProps)
           </form>
         </div>
       </div>
-    </Paper>
+    </Drawer>
   );
 }
