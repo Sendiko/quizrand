@@ -145,6 +145,8 @@ export default async function Home() {
           displayName={displayName}
           email={session.email}
           availableQuizzes={dashboard.stats.availableQuizzes}
+          title={`Welcome back, ${displayName}`}
+          currentPath="/"
         />
 
         <section className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">

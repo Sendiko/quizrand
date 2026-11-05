@@ -20,6 +20,8 @@ interface DashboardAppBarProps {
   displayName: string;
   email: string;
   availableQuizzes: number;
+  title: string;
+  currentPath: string;
 }
 
 const drawerWidth = 280;
@@ -28,7 +30,7 @@ const navItems = [
   { label: 'Quizzes', href: '/quizzes' },
 ];
 
-export function DashboardAppBar({ displayName, email, availableQuizzes }: DashboardAppBarProps) {
+export function DashboardAppBar({ displayName, email, availableQuizzes, title, currentPath }: DashboardAppBarProps) {
   const [drawerOpen, setDrawerOpen] = useState(false);
 
   return (
@@ -53,7 +55,10 @@ export function DashboardAppBar({ displayName, email, availableQuizzes }: Dashbo
             <MenuIcon />
           </IconButton>
           <div className="min-w-0 flex-1">
-            <Typography component="h1" sx={{ fontWeight: 700, lineHeight: 1.2 }} variant="overline" color="primary">QuizRand</Typography>
+            <Typography variant="overline" color="primary">QuizRand</Typography>
+            <Typography component="h1" variant="h6" sx={{ fontWeight: 700, lineHeight: 1.2 }} noWrap>
+              {title}
+            </Typography>
           </div>
           <div className="hidden w-full max-w-sm items-center rounded-xl bg-[var(--md-surface-container-high)] px-3 sm:flex">
             <SearchIcon sx={{ color: 'var(--md-on-surface-variant)' }} />
@@ -112,6 +117,7 @@ export function DashboardAppBar({ displayName, email, availableQuizzes }: Dashbo
               component="a"
               href={item.href}
               onClick={() => setDrawerOpen(false)}
+              selected={currentPath === item.href}
               sx={{ borderRadius: 2, mb: 0.5 }}
             >
               <ListItemText primary={item.label} />

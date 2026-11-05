@@ -1,4 +1,4 @@
-import { AppSidebar } from '@/components/app-sidebar';
+import { DashboardAppBar } from '@/components/dashboard-app-bar';
 import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
@@ -62,16 +62,16 @@ export default async function QuizzesPage() {
 
   return (
     <main className="min-h-screen bg-zinc-100 px-4 py-8 text-zinc-900 sm:px-6 lg:px-8">
-      <div className="mx-auto flex max-w-7xl flex-col gap-6 lg:flex-row">
-        <AppSidebar currentPath="/quizzes" displayName={session.name || session.username || session.email.split('@')[0]} email={session.email} />
+      <div className="mx-auto flex max-w-7xl flex-col gap-6">
+        <DashboardAppBar
+          displayName={session.name || session.username || session.email.split('@')[0]}
+          email={session.email}
+          availableQuizzes={quizzes.length}
+          title="Browse available quizzes"
+          currentPath="/quizzes"
+        />
 
-        <div className="flex-1">
-          <Paper sx={{ mb: 4, p: 3, borderRadius: 2 }}>
-            <Typography variant="overline" color="primary">Quizzes</Typography>
-              <Typography component="h1" variant="h4" sx={{ fontWeight: 700 }}>Browse available quizzes</Typography>
-          </Paper>
-
-          <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+        <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
             {quizzes.map((quiz) => (
               <Card key={quiz.id} sx={{ borderRadius: 2, height: '100%', display: 'flex', flexDirection: 'column' }}>
                 <CardContent sx={{ flex: 1, minWidth: 0, p: 2.5 }}>
@@ -113,8 +113,7 @@ export default async function QuizzesPage() {
                 </CardActions>
               </Card>
             ))}
-          </section>
-        </div>
+        </section>
       </div>
     </main>
   );
