@@ -1,10 +1,6 @@
 import Link from 'next/link';
-import { AppSidebar } from '@/components/app-sidebar';
-import AppBar from '@mui/material/AppBar';
+import { DashboardAppBar } from '@/components/dashboard-app-bar';
 import Card from '@mui/material/Card';
-import Chip from '@mui/material/Chip';
-import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
 import { getUserDashboard } from '@/lib/progress';
 import { getSession } from '@/lib/session';
 
@@ -144,42 +140,14 @@ export default async function Home() {
 
   return (
     <main className="min-h-screen bg-zinc-100 px-4 py-8 text-zinc-900 sm:px-6 lg:px-8">
-      <div className="mx-auto flex max-w-7xl flex-col gap-6 lg:flex-row">
-        <AppSidebar currentPath="/" displayName={displayName} email={session.email} />
+      <div className="mx-auto flex max-w-7xl flex-col gap-6">
+        <DashboardAppBar
+          displayName={displayName}
+          email={session.email}
+          availableQuizzes={dashboard.stats.availableQuizzes}
+        />
 
-        <div className="flex-1">
-          <AppBar
-            component="header"
-            position="static"
-            elevation={1}
-            sx={{
-              mb: 4,
-              borderRadius: 2,
-              backgroundColor: 'var(--md-surface-container-lowest)',
-              color: 'var(--md-on-surface)',
-            }}
-          >
-            <Toolbar
-              sx={{
-                minHeight: 112,
-                flexDirection: { xs: 'column', sm: 'row' },
-                alignItems: { xs: 'flex-start', sm: 'center' },
-                justifyContent: 'space-between',
-                gap: 2,
-                p: 3,
-              }}
-            >
-              <div>
-                <Typography variant="overline" color="primary">Dashboard</Typography>
-                <Typography component="h1" variant="h4" sx={{ mt: 0.5, fontWeight: 700 }}>
-                  Welcome back, {displayName}
-                </Typography>
-              </div>
-              <Chip color="primary" label={`${dashboard.stats.availableQuizzes} available quizzes`} />
-            </Toolbar>
-          </AppBar>
-
-          <section className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+        <section className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
             <Card sx={{ p: 2.5, borderRadius: 2 }}>
               <p className="text-sm text-zinc-500">Available quizzes</p>
               <p className="mt-3 text-3xl font-bold">{dashboard.stats.availableQuizzes}</p>
@@ -199,7 +167,7 @@ export default async function Home() {
               <p className="text-sm text-zinc-500">Completion rate</p>
               <p className="mt-3 text-3xl font-bold">{dashboard.stats.completionRate}%</p>
             </Card>
-          </section>
+        </section>
 
           <section className="mt-8 grid gap-6 xl:grid-cols-[1.2fr_0.8fr]">
             <div className="md3-card p-6">
@@ -361,7 +329,6 @@ export default async function Home() {
               )}
             </div>
           </section>
-        </div>
       </div>
     </main>
   );
