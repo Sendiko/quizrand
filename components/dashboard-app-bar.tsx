@@ -1,8 +1,10 @@
 'use client';
 
+import { logoutUserAction } from '@/app/actions/auth';
 import { useState } from 'react';
 import AppBar from '@mui/material/AppBar';
 import Avatar from '@mui/material/Avatar';
+import Button from '@mui/material/Button';
 import Divider from '@mui/material/Divider';
 import Drawer from '@mui/material/Drawer';
 import IconButton from '@mui/material/IconButton';
@@ -62,8 +64,9 @@ export function DashboardAppBar({ displayName, email, availableQuizzes, title, c
             <MenuIcon />
           </IconButton>
           <div className="min-w-0 flex-1">
+            <Typography variant="overline" color="primary">QuizRand</Typography>
             <Typography component="h1" variant="h6" sx={{ fontWeight: 700, lineHeight: 1.2 }} noWrap>
-              QuizRand
+              {title}
             </Typography>
           </div>
           <div className="relative flex w-full max-w-sm items-center rounded-xl bg-[var(--md-surface-container-high)] px-3">
@@ -174,6 +177,11 @@ export function DashboardAppBar({ displayName, email, availableQuizzes, title, c
           <Typography variant="caption" color="text.secondary" sx={{ display: 'block', mt: 1 }}>
             {availableQuizzes} available quizzes
           </Typography>
+          <form action={logoutUserAction} className="mt-3">
+            <Button type="submit" variant="outlined" fullWidth>
+              Logout
+            </Button>
+          </form>
         </div>
       </Drawer>
     </>
