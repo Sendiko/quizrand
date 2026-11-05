@@ -33,8 +33,8 @@ export default async function Home() {
   if (!session) {
     return (
       <main className="min-h-screen bg-zinc-50 px-4 py-12 text-zinc-900">
-        <div className="mx-auto flex max-w-3xl flex-col items-center justify-center rounded-3xl border border-zinc-200 bg-white p-8 shadow-sm">
-          <div className="mb-6 inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-tr from-blue-600 to-indigo-600 text-xl font-bold text-white shadow-lg shadow-indigo-500/20">
+        <div className="md3-card mx-auto flex max-w-3xl flex-col items-center justify-center p-8">
+          <div className="mb-6 inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-indigo-600 text-xl font-bold text-white">
             Q
           </div>
 
@@ -91,29 +91,29 @@ export default async function Home() {
           </header>
 
           <section className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-            <div className="rounded-3xl border border-zinc-200 bg-white p-5 shadow-sm">
+            <div className="md3-card p-5">
               <p className="text-sm text-zinc-500">Available quizzes</p>
               <p className="mt-3 text-3xl font-bold">{dashboard.stats.availableQuizzes}</p>
             </div>
 
-            <div className="rounded-3xl border border-zinc-200 bg-white p-5 shadow-sm">
+            <div className="md3-card p-5">
               <p className="text-sm text-zinc-500">Quizzes attempted</p>
               <p className="mt-3 text-3xl font-bold">{dashboard.stats.quizzesAttempted}</p>
             </div>
 
-            <div className="rounded-3xl border border-zinc-200 bg-white p-5 shadow-sm">
+            <div className="md3-card p-5">
               <p className="text-sm text-zinc-500">Completed quizzes</p>
               <p className="mt-3 text-3xl font-bold">{dashboard.stats.quizzesCompleted}</p>
             </div>
 
-            <div className="rounded-3xl border border-zinc-200 bg-white p-5 shadow-sm">
+            <div className="md3-card p-5">
               <p className="text-sm text-zinc-500">Completion rate</p>
               <p className="mt-3 text-3xl font-bold">{dashboard.stats.completionRate}%</p>
             </div>
           </section>
 
           <section className="mt-8 grid gap-6 xl:grid-cols-[1.2fr_0.8fr]">
-            <div className="rounded-3xl border border-zinc-200 bg-white p-6 shadow-sm">
+            <div className="md3-card p-6">
               <div className="flex items-center justify-between gap-4">
                 <div>
                   <p className="text-sm font-semibold uppercase tracking-[0.2em] text-zinc-500">
@@ -170,7 +170,7 @@ export default async function Home() {
                     <div className="flex justify-end">
                       <Link
                         href={`/quiz/${latestAttempt.quizId}/review`}
-                        className="inline-flex h-11 items-center justify-center rounded-full bg-indigo-600 px-4 text-sm font-semibold text-white transition hover:bg-indigo-500"
+                        className="md3-button"
                       >
                         Review results
                       </Link>
@@ -224,7 +224,7 @@ export default async function Home() {
             </div>
           </section>
 
-          <section className="mt-8 rounded-3xl border border-zinc-200 bg-white p-6 shadow-sm">
+          <section className="md3-card mt-8 p-6">
             <div className="flex items-center justify-between gap-4">
               <div>
                 <p className="text-sm font-semibold uppercase tracking-[0.2em] text-zinc-500">

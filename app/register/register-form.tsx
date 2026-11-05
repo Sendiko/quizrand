@@ -66,7 +66,7 @@ export default function RegisterForm() {
           <Link
             href="/"
             id="btn-go-home"
-            className="inline-flex items-center justify-center px-6 py-2.5 rounded-xl font-semibold text-sm bg-zinc-900 text-white dark:bg-zinc-50 dark:text-zinc-950 hover:bg-zinc-800 dark:hover:bg-zinc-200 transition-all shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-zinc-900 dark:focus:ring-zinc-50"
+            className="md3-button"
           >
             Go to Quizzes
           </Link>
@@ -74,7 +74,7 @@ export default function RegisterForm() {
             type="button"
             onClick={() => window.location.reload()}
             id="btn-register-another"
-            className="inline-flex items-center justify-center px-5 py-2.5 rounded-xl font-medium text-sm text-zinc-700 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-800/60 border border-zinc-200 dark:border-zinc-800 transition-all"
+            className="md3-button md3-button-outlined"
           >
             Register Another
           </button>
@@ -265,7 +265,7 @@ export default function RegisterForm() {
         type="submit"
         id="register-submit-btn"
         disabled={isPending}
-        className="w-full mt-2 py-3 px-4 rounded-xl font-semibold text-sm bg-gradient-to-r from-blue-600 via-indigo-600 to-violet-600 hover:from-blue-500 hover:via-indigo-500 hover:to-violet-500 text-white shadow-lg shadow-indigo-500/25 dark:shadow-indigo-500/15 hover:shadow-indigo-500/40 transition-all duration-200 flex items-center justify-center gap-2 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-60 disabled:cursor-not-allowed cursor-pointer"
+        className="md3-button mt-2 w-full gap-2"
       >
         {isPending ? (
           <>

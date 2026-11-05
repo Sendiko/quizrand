@@ -9,8 +9,8 @@ export default async function QuizzesPage() {
   if (!session) {
     return (
       <main className="min-h-screen bg-zinc-50 px-4 py-12 text-zinc-900">
-        <div className="mx-auto flex max-w-3xl flex-col items-center justify-center rounded-3xl border border-zinc-200 bg-white p-8 shadow-sm">
-          <div className="mb-6 inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-tr from-blue-600 to-indigo-600 text-xl font-bold text-white shadow-lg shadow-indigo-500/20">
+        <div className="md3-card mx-auto flex max-w-3xl flex-col items-center justify-center p-8">
+          <div className="mb-6 inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-indigo-600 text-xl font-bold text-white">
             Q
           </div>
           <h1 className="text-3xl font-bold tracking-tight">Sign in to view quizzes</h1>
@@ -20,13 +20,13 @@ export default async function QuizzesPage() {
           <div className="mt-8 flex gap-3">
             <Link
               href="/login"
-              className="inline-flex h-12 items-center justify-center rounded-full bg-indigo-600 px-6 text-sm font-semibold text-white transition hover:bg-indigo-500"
+              className="md3-button"
             >
               Sign in
             </Link>
             <Link
               href="/register"
-              className="inline-flex h-12 items-center justify-center rounded-full border border-zinc-200 bg-zinc-100 px-6 text-sm font-semibold text-zinc-800 transition hover:bg-zinc-200"
+              className="md3-button md3-button-outlined"
             >
               Create account
             </Link>
@@ -70,7 +70,7 @@ export default async function QuizzesPage() {
         <AppSidebar currentPath="/quizzes" displayName={session.name || session.username || session.email.split('@')[0]} email={session.email} />
 
         <div className="flex-1">
-          <header className="mb-8 rounded-3xl border border-zinc-200 bg-white p-6 shadow-sm">
+          <header className="md3-card mb-8 p-6">
             <p className="text-sm font-semibold uppercase tracking-[0.2em] text-indigo-600">
               Quizzes
             </p>
@@ -79,7 +79,7 @@ export default async function QuizzesPage() {
 
           <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
             {quizzes.map((quiz) => (
-              <article key={quiz.id} className="rounded-3xl border border-zinc-200 bg-white p-5 shadow-sm">
+              <article key={quiz.id} className="md3-card p-5">
                 <div className="mb-4 flex items-start justify-between gap-4">
                   <div>
                     <p className="text-xs font-semibold uppercase tracking-[0.2em] text-indigo-600">
@@ -110,7 +110,7 @@ export default async function QuizzesPage() {
                 <div className="mt-5 flex items-center gap-3">
                   <Link
                     href={`/quiz/${quiz.id}`}
-                    className="inline-flex h-11 items-center justify-center rounded-full bg-indigo-600 px-4 text-sm font-semibold text-white transition hover:bg-indigo-500"
+                    className="md3-button"
                   >
                     {completedQuizIds.has(quiz.id) ? 'Retake quiz' : 'Start quiz'}
                   </Link>
@@ -118,7 +118,7 @@ export default async function QuizzesPage() {
                   {completedQuizIds.has(quiz.id) ? (
                     <Link
                       href={`/quiz/${quiz.id}/review`}
-                      className="inline-flex h-11 items-center justify-center rounded-full border border-zinc-200 bg-white px-4 text-sm font-semibold text-zinc-700 transition hover:bg-zinc-100"
+                      className="md3-button md3-button-outlined"
                     >
                       Review
                     </Link>

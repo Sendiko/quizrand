@@ -47,7 +47,7 @@ export default function LoginForm() {
           <Link
             href="/"
             id="btn-login-success-home"
-            className="inline-flex items-center justify-center px-6 py-2.5 rounded-xl font-semibold text-sm bg-gradient-to-r from-blue-600 to-indigo-600 text-white hover:from-blue-500 hover:to-indigo-500 transition-all shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 cursor-pointer"
+            className="md3-button"
           >
             Explore Quizzes
             <svg
@@ -232,7 +232,7 @@ export default function LoginForm() {
         type="submit"
         id="login-submit-btn"
         disabled={isPending}
-        className="w-full mt-2 py-3 px-4 rounded-xl font-semibold text-sm bg-gradient-to-r from-blue-600 via-indigo-600 to-violet-600 hover:from-blue-500 hover:via-indigo-500 hover:to-violet-500 text-white shadow-lg shadow-indigo-500/25 dark:shadow-indigo-500/15 hover:shadow-indigo-500/40 transition-all duration-200 flex items-center justify-center gap-2 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-60 disabled:cursor-not-allowed cursor-pointer"
+        className="md3-button mt-2 w-full gap-2"
       >
         {isPending ? (
           <>

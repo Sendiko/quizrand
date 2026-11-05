@@ -54,7 +54,7 @@ export default async function QuizReviewPage({ params }: { params: Promise<{ id:
 
   return (
     <main className="min-h-screen bg-zinc-100 px-4 py-8 text-zinc-900 sm:px-6 lg:px-8">
-      <div className="mx-auto max-w-5xl rounded-3xl border border-zinc-200 bg-white p-6 shadow-sm">
+      <div className="md3-card mx-auto max-w-5xl p-6">
         <div className="mb-8 flex flex-col gap-4 border-b border-zinc-200 pb-5 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <p className="text-xs font-semibold uppercase tracking-[0.24em] text-indigo-600">Review</p>
@@ -73,7 +73,7 @@ export default async function QuizReviewPage({ params }: { params: Promise<{ id:
             </div>
             <Link
               href="/quizzes"
-              className="rounded-full border border-zinc-200 bg-white px-4 py-2 text-sm font-medium text-zinc-700 transition hover:bg-zinc-100"
+              className="md3-button md3-button-outlined"
             >
               Back to quizzes
             </Link>
@@ -93,7 +93,7 @@ export default async function QuizReviewPage({ params }: { params: Promise<{ id:
             return (
               <div
                 key={question.id}
-                className="rounded-3xl border border-zinc-200 bg-zinc-50 p-5"
+                className="md3-card bg-zinc-50 p-5"
               >
                 <div className="mb-4 flex items-center justify-between gap-4">
                   <p className="text-xs font-semibold uppercase tracking-[0.2em] text-zinc-500">

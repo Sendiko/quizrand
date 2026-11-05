@@ -376,7 +376,7 @@ export function QuizPlayer({ quiz, activeAttempt }: QuizPlayerProps) {
     <main className="min-h-screen bg-zinc-100 px-4 py-8 text-zinc-900 sm:px-6 lg:px-8">
       {showSetup ? (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-zinc-950/45 px-4">
-          <div className="w-full max-w-md rounded-3xl border border-zinc-200 bg-white p-6 shadow-2xl">
+          <div className="md3-card w-full max-w-md p-6">
             <p className="text-xs font-semibold uppercase tracking-[0.24em] text-indigo-600">
               Quiz setup
             </p>
@@ -412,7 +412,7 @@ export function QuizPlayer({ quiz, activeAttempt }: QuizPlayerProps) {
                 type="button"
                 onClick={startQuiz}
                 disabled={isStartingQuiz}
-                className="rounded-full bg-indigo-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-indigo-500 disabled:cursor-not-allowed disabled:bg-indigo-400"
+                className="md3-button"
               >
                 {isStartingQuiz ? 'Starting...' : 'Start quiz'}
               </button>
@@ -421,7 +421,7 @@ export function QuizPlayer({ quiz, activeAttempt }: QuizPlayerProps) {
         </div>
       ) : null}
 
-      <div className="mx-auto max-w-5xl rounded-3xl border border-zinc-200 bg-white p-6 shadow-sm">
+      <div className="md3-card mx-auto max-w-5xl p-6">
         <div className="mb-6 flex flex-col gap-4 border-b border-zinc-200 pb-5 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <p className="text-xs font-semibold uppercase tracking-[0.24em] text-indigo-600">Quiz</p>
@@ -449,7 +449,7 @@ export function QuizPlayer({ quiz, activeAttempt }: QuizPlayerProps) {
             <select
               value={selectedTimer}
               onChange={(event) => handleTimerOptionChange(Number(event.target.value))}
-              className="rounded-xl border border-zinc-200 bg-white px-3 py-2 text-sm"
+              className="md3-field px-3 py-2 text-sm"
             >
               {DEFAULT_TIME_OPTIONS.map((option) => (
                 <option key={option} value={option}>
@@ -481,7 +481,7 @@ export function QuizPlayer({ quiz, activeAttempt }: QuizPlayerProps) {
         </div>
 
         <div className="grid gap-6 lg:grid-cols-[minmax(0,1.8fr)_minmax(260px,0.9fr)]">
-          <div className="rounded-3xl border border-zinc-200 bg-zinc-50 p-5">
+          <div className="md3-card bg-zinc-50 p-5">
             <div className="mb-4 flex items-center justify-between gap-4">
               <p className="text-xs font-semibold uppercase tracking-[0.2em] text-zinc-500">
                 Question {currentQuestionIndex + 1}
@@ -541,7 +541,7 @@ export function QuizPlayer({ quiz, activeAttempt }: QuizPlayerProps) {
                 type="button"
                 onClick={() => setCurrentQuestionIndex((previous) => Math.max(0, previous - 1))}
                 disabled={currentQuestionIndex === 0}
-                className="rounded-full border border-zinc-200 bg-white px-4 py-2 text-sm font-medium text-zinc-700 transition hover:bg-zinc-100 disabled:cursor-not-allowed disabled:opacity-50"
+                className="md3-button md3-button-outlined disabled:cursor-not-allowed disabled:opacity-50"
               >
                 Previous
               </button>
@@ -552,7 +552,7 @@ export function QuizPlayer({ quiz, activeAttempt }: QuizPlayerProps) {
                   setCurrentQuestionIndex((previous) => Math.min(quiz.questions.length - 1, previous + 1))
                 }
                 disabled={currentQuestionIndex === quiz.questions.length - 1}
-                className="rounded-full bg-indigo-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-indigo-500 disabled:cursor-not-allowed disabled:bg-indigo-400"
+                className="md3-button disabled:cursor-not-allowed disabled:opacity-50"
               >
                 Next
               </button>
@@ -599,7 +599,7 @@ export function QuizPlayer({ quiz, activeAttempt }: QuizPlayerProps) {
             <button
               type="button"
               onClick={saveProgress}
-              className="rounded-full border border-zinc-200 bg-white px-4 py-2 text-sm font-medium text-zinc-700 transition hover:bg-zinc-100"
+              className="md3-button md3-button-outlined"
             >
               Save progress
             </button>
@@ -612,14 +612,14 @@ export function QuizPlayer({ quiz, activeAttempt }: QuizPlayerProps) {
             <button
               type="button"
               onClick={() => router.push('/quizzes')}
-              className="rounded-full border border-zinc-200 bg-white px-4 py-2 text-sm font-medium text-zinc-700 transition hover:bg-zinc-100"
+              className="md3-button md3-button-outlined"
             >
               Exit
             </button>
             <button
               type="button"
               onClick={submitQuiz}
-              className="rounded-full bg-indigo-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-indigo-500"
+              className="md3-button"
             >
               Finish quiz
             </button>

@@ -14,9 +14,9 @@ const navItems = [
 
 export function AppSidebar({ currentPath, displayName, email }: AppSidebarProps) {
   return (
-    <aside className="w-full max-w-[280px] shrink-0 rounded-3xl border border-zinc-200 bg-white p-4 shadow-sm">
+    <aside className="md3-card w-full max-w-[280px] shrink-0 p-4">
       <div className="mb-8 flex items-center gap-3 px-2">
-        <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-gradient-to-tr from-blue-600 to-indigo-600 text-lg font-bold text-white shadow-lg shadow-indigo-500/20">
+        <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-indigo-600 text-lg font-bold text-white">
           Q
         </div>
         <div>
@@ -37,7 +37,7 @@ export function AppSidebar({ currentPath, displayName, email }: AppSidebarProps)
               href={item.href}
               className={`flex items-center justify-between rounded-2xl px-3 py-2.5 text-sm font-medium transition ${
                 isActive
-                  ? 'bg-indigo-50 text-indigo-700 ring-1 ring-indigo-100'
+                  ? 'bg-indigo-100 text-indigo-700 ring-1 ring-indigo-200'
                   : 'text-zinc-600 hover:bg-zinc-100 hover:text-zinc-900'
               }`}
             >
@@ -56,7 +56,7 @@ export function AppSidebar({ currentPath, displayName, email }: AppSidebarProps)
         <form action={logoutUserAction}>
           <button
             type="submit"
-            className="w-full rounded-2xl border border-zinc-200 bg-white px-3 py-2 text-sm font-medium text-zinc-700 transition hover:bg-zinc-100"
+            className="md3-button md3-button-outlined w-full"
           >
             Logout
           </button>

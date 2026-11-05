@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 
 export default function RegisterPage() {
   return (
-    <div className="relative min-h-screen flex flex-col items-center justify-center py-12 px-4 sm:px-6 lg:px-8 bg-zinc-50 dark:bg-[#09090b] selection:bg-indigo-500 selection:text-white overflow-hidden">
+    <div className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden bg-zinc-50 px-4 py-12 text-zinc-900 sm:px-6 lg:px-8">
       {/* Background ambient lighting effects */}
       <div
         className="pointer-events-none absolute -top-40 -left-40 w-96 h-96 bg-gradient-to-br from-blue-500/20 via-indigo-500/15 to-purple-500/0 rounded-full blur-3xl dark:from-blue-600/10 dark:via-indigo-600/10"
@@ -27,11 +27,11 @@ export default function RegisterPage() {
             href="/"
             className="inline-flex items-center gap-2 group transition-transform hover:scale-105"
           >
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-600 to-indigo-600 flex items-center justify-center text-white font-bold text-lg shadow-md shadow-indigo-500/20">
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-indigo-600 text-lg font-bold text-white">
               Q
             </div>
-            <span className="text-2xl font-black tracking-tight text-zinc-900 dark:text-zinc-50">
-              Quiz<span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-500">Rand</span>
+            <span className="text-2xl font-black tracking-tight text-zinc-900">
+              Quiz<span className="text-indigo-600">Rand</span>
             </span>
           </Link>
 
@@ -44,7 +44,7 @@ export default function RegisterPage() {
         </div>
 
         {/* Card container */}
-        <div className="rounded-3xl bg-white/80 dark:bg-zinc-900/70 backdrop-blur-xl border border-zinc-200/80 dark:border-zinc-800/80 p-6 sm:p-8 shadow-xl shadow-zinc-900/5 dark:shadow-black/40">
+        <div className="md3-card p-6 sm:p-8">
           <RegisterForm />
         </div>
 
