@@ -1,5 +1,9 @@
 import Link from 'next/link';
 import { AppSidebar } from '@/components/app-sidebar';
+import Card from '@mui/material/Card';
+import Chip from '@mui/material/Chip';
+import Paper from '@mui/material/Paper';
+import Typography from '@mui/material/Typography';
 import { getUserDashboard } from '@/lib/progress';
 import { getSession } from '@/lib/session';
 
@@ -143,41 +147,39 @@ export default async function Home() {
         <AppSidebar currentPath="/" displayName={displayName} email={session.email} />
 
         <div className="flex-1">
-          <header className="mb-8 flex flex-col gap-4 rounded-3xl border border-zinc-200 bg-white p-6 shadow-sm sm:flex-row sm:items-center sm:justify-between">
+          <Paper component="header" elevation={1} sx={{ mb: 4, p: 3, borderRadius: 4, display: 'flex', flexDirection: { xs: 'column', sm: 'row' }, gap: 2, justifyContent: 'space-between' }}>
             <div>
               <p className="text-sm font-semibold uppercase tracking-[0.2em] text-indigo-600">
                 Dashboard
               </p>
-              <h1 className="mt-2 text-3xl font-bold tracking-tight">
+              <Typography component="h1" variant="h4" sx={{ mt: 1, fontWeight: 700 }}>
                 Welcome back, {displayName}
-              </h1>
+              </Typography>
             </div>
 
-            <div className="rounded-2xl bg-indigo-50 px-4 py-3 text-sm text-indigo-700">
-              <span className="font-semibold">{dashboard.stats.availableQuizzes}</span> available quizzes
-            </div>
-          </header>
+            <Chip color="primary" label={`${dashboard.stats.availableQuizzes} available quizzes`} />
+          </Paper>
 
           <section className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-            <div className="md3-card p-5">
+            <Card sx={{ p: 2.5, borderRadius: 4 }}>
               <p className="text-sm text-zinc-500">Available quizzes</p>
               <p className="mt-3 text-3xl font-bold">{dashboard.stats.availableQuizzes}</p>
-            </div>
+            </Card>
 
-            <div className="md3-card p-5">
+            <Card sx={{ p: 2.5, borderRadius: 4 }}>
               <p className="text-sm text-zinc-500">Quizzes attempted</p>
               <p className="mt-3 text-3xl font-bold">{dashboard.stats.quizzesAttempted}</p>
-            </div>
+            </Card>
 
-            <div className="md3-card p-5">
+            <Card sx={{ p: 2.5, borderRadius: 4 }}>
               <p className="text-sm text-zinc-500">Completed quizzes</p>
               <p className="mt-3 text-3xl font-bold">{dashboard.stats.quizzesCompleted}</p>
-            </div>
+            </Card>
 
-            <div className="md3-card p-5">
+            <Card sx={{ p: 2.5, borderRadius: 4 }}>
               <p className="text-sm text-zinc-500">Completion rate</p>
               <p className="mt-3 text-3xl font-bold">{dashboard.stats.completionRate}%</p>
-            </div>
+            </Card>
           </section>
 
           <section className="mt-8 grid gap-6 xl:grid-cols-[1.2fr_0.8fr]">

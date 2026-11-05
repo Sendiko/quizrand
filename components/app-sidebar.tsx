@@ -1,5 +1,12 @@
 import Link from 'next/link';
 import { logoutUserAction } from '@/app/actions/auth';
+import Avatar from '@mui/material/Avatar';
+import Button from '@mui/material/Button';
+import List from '@mui/material/List';
+import ListItemButton from '@mui/material/ListItemButton';
+import ListItemText from '@mui/material/ListItemText';
+import Paper from '@mui/material/Paper';
+import Typography from '@mui/material/Typography';
 
 interface AppSidebarProps {
   currentPath: string;
@@ -14,54 +21,41 @@ const navItems = [
 
 export function AppSidebar({ currentPath, displayName, email }: AppSidebarProps) {
   return (
-    <aside className="md3-card w-full max-w-[280px] shrink-0 p-4">
-      <div className="mb-8 flex items-center gap-3 px-2">
-        <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-indigo-600 text-lg font-bold text-white">
-          Q
+    <Paper component="aside" elevation={1} sx={{ width: '100%', maxWidth: 280, flexShrink: 0, p: 2, borderRadius: 4 }}>
+      <div className="flex flex-col gap-4">
+        <div className="flex items-center gap-3 px-1">
+          <Avatar sx={{ bgcolor: 'primary.main' }}>Q</Avatar>
+          <div>
+            <Typography variant="overline" color="text.secondary">QuizRand</Typography>
+            <Typography component="p" variant="body2" sx={{ fontWeight: 700 }}>Learning hub</Typography>
+          </div>
         </div>
-        <div>
-          <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-zinc-500">
-            QuizRand
-          </p>
-          <p className="text-sm font-semibold text-zinc-800">Learning hub</p>
+        <List disablePadding>
+          {navItems.map((item) => {
+            const active = currentPath === item.href || (item.href !== '/' && currentPath.startsWith(item.href));
+            return (
+              <ListItemButton
+                key={item.href}
+                component={Link}
+                href={item.href}
+                selected={active}
+                sx={{ borderRadius: 3, mb: 0.5 }}
+              >
+                <ListItemText primary={item.label} />
+              </ListItemButton>
+            );
+          })}
+        </List>
+        <div className="flex flex-col gap-3 border-t border-zinc-200 pt-4">
+          <div className="px-1">
+            <Typography component="p" variant="body2" sx={{ fontWeight: 700 }}>{displayName}</Typography>
+            <Typography variant="caption" color="text.secondary">{email}</Typography>
+          </div>
+          <form action={logoutUserAction}>
+            <Button type="submit" variant="outlined" fullWidth>Logout</Button>
+          </form>
         </div>
       </div>
-
-      <nav className="space-y-2">
-        {navItems.map((item) => {
-          const isActive = currentPath === item.href || (item.href !== '/' && currentPath.startsWith(item.href));
-
-          return (
-            <Link
-              key={item.href}
-              href={item.href}
-              className={`flex items-center justify-between rounded-2xl px-3 py-2.5 text-sm font-medium transition ${
-                isActive
-                  ? 'bg-indigo-100 text-indigo-700 ring-1 ring-indigo-200'
-                  : 'text-zinc-600 hover:bg-zinc-100 hover:text-zinc-900'
-              }`}
-            >
-              <span>{item.label}</span>
-            </Link>
-          );
-        })}
-      </nav>
-
-      <div className="mt-8 border-t border-zinc-200 pt-4">
-        <div className="mb-3 rounded-2xl bg-zinc-50 px-3 py-2">
-          <p className="text-sm font-semibold text-zinc-800">{displayName}</p>
-          <p className="text-xs text-zinc-500">{email}</p>
-        </div>
-
-        <form action={logoutUserAction}>
-          <button
-            type="submit"
-            className="md3-button md3-button-outlined w-full"
-          >
-            Logout
-          </button>
-        </form>
-      </div>
-    </aside>
+    </Paper>
   );
 }

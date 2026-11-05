@@ -2,6 +2,10 @@ import Link from 'next/link';
 import { notFound, redirect } from 'next/navigation';
 import { prisma } from '@/lib/db';
 import { getSession } from '@/lib/session';
+import Button from '@mui/material/Button';
+import Card from '@mui/material/Card';
+import Chip from '@mui/material/Chip';
+import Typography from '@mui/material/Typography';
 
 export default async function QuizReviewPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
@@ -58,25 +62,22 @@ export default async function QuizReviewPage({ params }: { params: Promise<{ id:
         <div className="mb-8 flex flex-col gap-4 border-b border-zinc-200 pb-5 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <p className="text-xs font-semibold uppercase tracking-[0.24em] text-indigo-600">Review</p>
-            <h1 className="mt-2 text-3xl font-bold">{quiz.title}</h1>
+            <Typography component="h1" variant="h4" sx={{ mt: 1, fontWeight: 700 }}>{quiz.title}</Typography>
             {quiz.description ? (
               <p className="mt-2 max-w-2xl text-sm text-zinc-600">{quiz.description}</p>
             ) : null}
           </div>
 
           <div className="flex flex-wrap items-center gap-3">
-            <div className="rounded-2xl bg-indigo-50 px-4 py-2 text-sm font-semibold text-indigo-700">
-              {attempt.correctAnswersCount}/{totalQuestions} correct
-            </div>
-            <div className="rounded-2xl bg-emerald-50 px-4 py-2 text-sm font-semibold text-emerald-700">
-              {percentageScore}% score
-            </div>
-            <Link
+            <Chip color="primary" label={`${attempt.correctAnswersCount}/${totalQuestions} correct`} />
+            <Chip color="success" label={`${percentageScore}% score`} />
+            <Button
+              component={Link}
               href="/quizzes"
-              className="md3-button md3-button-outlined"
+              variant="outlined"
             >
               Back to quizzes
-            </Link>
+            </Button>
           </div>
         </div>
 
@@ -91,9 +92,9 @@ export default async function QuizReviewPage({ params }: { params: Promise<{ id:
             const isCorrect = answers.length > 0 && answers.every((answer) => answer.isCorrect);
 
             return (
-              <div
+              <Card
                 key={question.id}
-                className="md3-card bg-zinc-50 p-5"
+                sx={{ borderRadius: 4, p: 2.5 }}
               >
                 <div className="mb-4 flex items-center justify-between gap-4">
                   <p className="text-xs font-semibold uppercase tracking-[0.2em] text-zinc-500">
@@ -110,7 +111,7 @@ export default async function QuizReviewPage({ params }: { params: Promise<{ id:
                   </span>
                 </div>
 
-                <h2 className="text-xl font-bold leading-tight text-zinc-900">{question.text}</h2>
+                <Typography component="h2" variant="h6" sx={{ fontWeight: 700 }}>{question.text}</Typography>
 
                 {question.header ? (
                   <div className="mt-3 inline-flex rounded-full bg-white px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.2em] text-zinc-600">
@@ -161,7 +162,7 @@ export default async function QuizReviewPage({ params }: { params: Promise<{ id:
                     </p>
                   ) : null}
                 </div>
-              </div>
+              </Card>
             );
           })}
         </div>
