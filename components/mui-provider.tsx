@@ -5,6 +5,14 @@ import type { ReactNode } from 'react';
 
 const theme = createTheme({
   palette: {
+    background: {
+      default: '#fdf7ff',
+      paper: '#ffffff',
+    },
+    text: {
+      primary: '#1c1b20',
+      secondary: '#48454e',
+    },
     primary: {
       main: '#63568F',
       light: '#E8DEFF',
@@ -22,6 +30,52 @@ const theme = createTheme({
     borderRadius: 16,
   },
   components: {
+    MuiPaper: {
+      styleOverrides: {
+        root: {
+          backgroundColor: 'var(--md-surface-container-lowest)',
+          color: 'var(--md-on-surface)',
+        },
+      },
+    },
+    MuiCard: {
+      styleOverrides: {
+        root: {
+          backgroundColor: 'var(--md-surface-container-lowest)',
+          color: 'var(--md-on-surface)',
+        },
+      },
+    },
+    MuiButton: {
+      styleOverrides: {
+        root: {
+          '&.MuiButton-containedPrimary': {
+            backgroundColor: 'var(--md-primary)',
+            color: 'var(--md-on-primary)',
+            '&:hover': {
+              backgroundColor: 'var(--md-primary)',
+              filter: 'brightness(1.08)',
+            },
+          },
+          '&.MuiButton-outlinedPrimary': {
+            borderColor: 'var(--md-outline)',
+            color: 'var(--md-primary)',
+            '&:hover': {
+              borderColor: 'var(--md-primary)',
+              backgroundColor: 'var(--md-primary-container)',
+            },
+          },
+        },
+      },
+    },
+    MuiChip: {
+      styleOverrides: {
+        colorPrimary: {
+          backgroundColor: 'var(--md-primary)',
+          color: 'var(--md-on-primary)',
+        },
+      },
+    },
     MuiOutlinedInput: {
       styleOverrides: {
         root: {

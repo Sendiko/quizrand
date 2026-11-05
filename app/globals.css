@@ -213,6 +213,78 @@ select:focus-visible {
   outline: none;
 }
 
+.review-page {
+  background: var(--md-surface-container);
+  color: var(--md-on-surface);
+}
+
+.review-divider {
+  border-color: var(--md-outline-variant);
+}
+
+.review-muted {
+  color: var(--md-on-surface-variant);
+}
+
+.review-status-correct {
+  background: #ccebd8;
+  color: #18502d;
+}
+
+.review-status-incorrect {
+  background: var(--md-error-container);
+  color: var(--md-on-error-container);
+}
+
+.review-header,
+.review-summary {
+  border-color: var(--md-outline-variant);
+  background: var(--md-surface-container);
+  color: var(--md-on-surface-variant);
+}
+
+.review-option-default,
+.review-option-correct,
+.review-option-incorrect {
+  border-width: 1px;
+}
+
+.review-option-default {
+  border-color: var(--md-outline-variant);
+  background: var(--md-surface-container-low);
+}
+
+.review-option-correct {
+  border-color: #267343;
+  background: #e8f5ed;
+}
+
+.review-option-incorrect {
+  border-color: var(--md-error);
+  background: var(--md-error-container);
+}
+
+.review-option-text,
+.review-summary-text {
+  color: var(--md-on-surface);
+}
+
+.review-summary-heading {
+  color: var(--md-on-surface);
+}
+
+@media (prefers-color-scheme: dark) {
+  .review-status-correct {
+    background: #18502d;
+    color: #ccebd8;
+  }
+
+  .review-option-correct {
+    border-color: #79b98d;
+    background: #183522;
+  }
+}
+
 select,
 select option {
   color: var(--md-on-surface);

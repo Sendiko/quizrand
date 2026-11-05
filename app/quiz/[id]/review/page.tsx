@@ -56,14 +56,14 @@ export default async function QuizReviewPage({ params }: { params: Promise<{ id:
   const percentageScore = totalQuestions > 0 ? Math.round((attempt.correctAnswersCount / totalQuestions) * 100) : 0;
 
   return (
-    <main className="min-h-screen bg-zinc-100 px-4 py-8 text-zinc-900 sm:px-6 lg:px-8">
+    <main className="review-page min-h-screen px-4 py-8 sm:px-6 lg:px-8">
       <div className="md3-card mx-auto max-w-5xl p-6">
-        <div className="mb-8 flex flex-col gap-4 border-b border-zinc-200 pb-5 sm:flex-row sm:items-center sm:justify-between">
+        <div className="review-divider mb-8 flex flex-col gap-4 border-b pb-5 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <p className="text-xs font-semibold uppercase tracking-[0.24em] text-indigo-600">Review</p>
             <Typography component="h1" variant="h4" sx={{ mt: 1, fontWeight: 700 }}>{quiz.title}</Typography>
             {quiz.description ? (
-              <p className="mt-2 max-w-2xl text-sm text-zinc-600">{quiz.description}</p>
+              <p className="review-muted mt-2 max-w-2xl text-sm">{quiz.description}</p>
             ) : null}
           </div>
 
@@ -95,15 +95,11 @@ export default async function QuizReviewPage({ params }: { params: Promise<{ id:
                 sx={{ borderRadius: 4, p: 2.5 }}
               >
                 <div className="mb-4 flex items-center justify-between gap-4">
-                  <p className="text-xs font-semibold uppercase tracking-[0.2em] text-zinc-500">
+                  <p className="review-muted text-xs font-semibold uppercase tracking-[0.2em]">
                     Question {index + 1}
                   </p>
                   <span
-                    className={`rounded-full px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.2em] ${
-                      isCorrect
-                        ? 'bg-emerald-100 text-emerald-700'
-                        : 'bg-rose-100 text-rose-700'
-                    }`}
+                    className={`review-status rounded-full px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.2em] ${isCorrect ? 'review-status-correct' : 'review-status-incorrect'}`}
                   >
                     {isCorrect ? 'Correct' : 'Incorrect'}
                   </span>
@@ -112,7 +108,7 @@ export default async function QuizReviewPage({ params }: { params: Promise<{ id:
                 <Typography component="h2" variant="h6" sx={{ fontWeight: 700 }}>{question.text}</Typography>
 
                 {question.header ? (
-                  <div className="mt-3 inline-flex rounded-full bg-white px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.2em] text-zinc-600">
+                  <div className="review-header mt-3 inline-flex rounded-full px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.2em]">
                     {question.header}
                   </div>
                 ) : null}
@@ -123,18 +119,18 @@ export default async function QuizReviewPage({ params }: { params: Promise<{ id:
                     const isCorrectOption = option.isCorrect;
 
                     const optionStyles = isCorrectOption
-                      ? 'border-emerald-500 bg-emerald-50'
+                      ? 'review-option-correct'
                       : isSelected && !isCorrectOption
-                        ? 'border-rose-500 bg-rose-50'
-                        : 'border-zinc-200 bg-white';
+                        ? 'review-option-incorrect'
+                        : 'review-option-default';
 
                     return (
                       <div
                         key={option.id}
                         className={`flex w-full items-center justify-between rounded-2xl border p-4 text-left ${optionStyles}`}
                       >
-                        <span className="text-base font-medium text-zinc-800">{option.text}</span>
-                        <span className="text-xs font-semibold uppercase tracking-[0.16em] text-zinc-500">
+                        <span className="review-option-text text-base font-medium">{option.text}</span>
+                        <span className="review-muted text-xs font-semibold uppercase tracking-[0.16em]">
                               {isCorrectOption ? 'Correct answer' : isSelected ? 'Your choice' : ''}
                         </span>
                       </div>
@@ -142,20 +138,20 @@ export default async function QuizReviewPage({ params }: { params: Promise<{ id:
                   })}
                 </div>
 
-                <div className="mt-5 rounded-2xl border border-zinc-200 bg-white p-4">
-                  <p className="text-sm text-zinc-700">
-                    <span className="font-semibold text-zinc-900">Your answer:</span>{' '}
+                <div className="review-summary mt-5 rounded-2xl border p-4">
+                  <p className="review-summary-text text-sm">
+                    <span className="review-summary-heading font-semibold">Your answer:</span>{' '}
                     {selectedOptions.length > 0
                       ? selectedOptions.map((option) => option.text).join(', ')
                       : 'No answer selected'}
                   </p>
-                  <p className="mt-2 text-sm text-zinc-700">
-                    <span className="font-semibold text-zinc-900">Correct answer:</span>{' '}
+                  <p className="review-summary-text mt-2 text-sm">
+                    <span className="review-summary-heading font-semibold">Correct answer:</span>{' '}
                     {correctOptions.map((option) => option.text).join(', ')}
                   </p>
                   {question.explanation ? (
-                    <p className="mt-3 text-sm text-zinc-600">
-                      <span className="font-semibold text-zinc-900">Explanation:</span>{' '}
+                    <p className="review-muted mt-3 text-sm">
+                      <span className="review-summary-heading font-semibold">Explanation:</span>{' '}
                       {question.explanation}
                     </p>
                   ) : null}
