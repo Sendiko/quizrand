@@ -69,6 +69,7 @@ export default async function QuizzesPage() {
           availableQuizzes={quizzes.length}
           title="Browse available quizzes"
           currentPath="/quizzes"
+          quizzes={quizzes.map(({ id, title, category }) => ({ id, title, category }))}
         />
 
         <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">

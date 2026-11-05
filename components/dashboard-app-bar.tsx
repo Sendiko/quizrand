@@ -10,6 +10,7 @@ import InputBase from '@mui/material/InputBase';
 import List from '@mui/material/List';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
+import Paper from '@mui/material/Paper';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import MenuIcon from '@mui/icons-material/Menu';
@@ -22,6 +23,7 @@ interface DashboardAppBarProps {
   availableQuizzes: number;
   title: string;
   currentPath: string;
+  quizzes: Array<{ id: string; title: string; category: string | null }>;
 }
 
 const drawerWidth = 280;
@@ -30,8 +32,13 @@ const navItems = [
   { label: 'Quizzes', href: '/quizzes' },
 ];
 
-export function DashboardAppBar({ displayName, email, availableQuizzes, title, currentPath }: DashboardAppBarProps) {
+export function DashboardAppBar({ displayName, email, availableQuizzes, title, currentPath, quizzes }: DashboardAppBarProps) {
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const [search, setSearch] = useState('');
+  const filteredQuizzes = quizzes.filter((quiz) =>
+    `${quiz.title} ${quiz.category ?? ''}`.toLowerCase().includes(search.trim().toLowerCase())
+  );
+  const searchOpen = search.trim().length > 0;
 
   return (
     <>
@@ -55,12 +62,16 @@ export function DashboardAppBar({ displayName, email, availableQuizzes, title, c
             <MenuIcon />
           </IconButton>
           <div className="min-w-0 flex-1">
-            <Typography component="h1" sx={{ fontWeight: 700, lineHeight: 1.2 }} color="primary">QuizRand</Typography>
+            <Typography component="h1" variant="h6" sx={{ fontWeight: 700, lineHeight: 1.2 }} noWrap>
+              QuizRand
+            </Typography>
           </div>
-          <div className="hidden w-full max-w-sm items-center rounded-xl bg-[var(--md-surface-container-high)] px-3 sm:flex">
+          <div className="relative flex w-full max-w-sm items-center rounded-xl bg-[var(--md-surface-container-high)] px-3">
             <SearchIcon sx={{ color: 'var(--md-on-surface-variant)' }} />
             <InputBase
               placeholder="Search..."
+              value={search}
+              onChange={(event) => setSearch(event.target.value)}
               inputProps={{ 'aria-label': 'Search' }}
               sx={{
                 ml: 1,
@@ -72,6 +83,42 @@ export function DashboardAppBar({ displayName, email, availableQuizzes, title, c
                 },
               }}
             />
+            {searchOpen ? (
+              <Paper
+                elevation={4}
+                sx={{
+                  position: 'absolute',
+                  top: 'calc(100% + 8px)',
+                  left: 0,
+                  right: 0,
+                  zIndex: 2,
+                  maxHeight: 320,
+                  overflowY: 'auto',
+                  backgroundColor: 'var(--md-surface-container-lowest)',
+                }}
+              >
+                <List disablePadding>
+                  {filteredQuizzes.length > 0 ? filteredQuizzes.map((quiz) => (
+                    <ListItemButton
+                      key={quiz.id}
+                      component="a"
+                      href={`/quiz/${quiz.id}`}
+                      onClick={() => setSearch('')}
+                    >
+                      <ListItemText
+                        primary={quiz.title}
+                        secondary={quiz.category || 'General'}
+                      />
+                    </ListItemButton>
+                  )) : (
+                    <ListItemText
+                      primary="No quizzes found"
+                      sx={{ px: 2, py: 1.5 }}
+                    />
+                  )}
+                </List>
+              </Paper>
+            ) : null}
           </div>
           <Avatar sx={{ bgcolor: 'primary.main', width: 36, height: 36 }}>
             {displayName.charAt(0).toUpperCase()}

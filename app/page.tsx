@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { DashboardAppBar } from '@/components/dashboard-app-bar';
 import Card from '@mui/material/Card';
+import { prisma } from '@/lib/db';
 import { getUserDashboard } from '@/lib/progress';
 import { getSession } from '@/lib/session';
 
@@ -135,6 +136,11 @@ export default async function Home() {
   }
 
   const dashboard = await getUserDashboard(session.id);
+  const quizzes = await prisma.quiz.findMany({
+    where: { isPublished: true },
+    select: { id: true, title: true, category: true },
+    orderBy: { title: 'asc' },
+  });
   const latestAttempt = dashboard.recentAttempts[0];
   const displayName = session.name || session.username || session.email.split('@')[0];
 
@@ -147,6 +153,7 @@ export default async function Home() {
           availableQuizzes={dashboard.stats.availableQuizzes}
           title={`Welcome back, ${displayName}`}
           currentPath="/"
+          quizzes={quizzes}
         />
 
         <section className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
