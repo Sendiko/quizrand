@@ -74,31 +74,35 @@ export default async function QuizzesPage() {
           <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
             {quizzes.map((quiz) => (
               <Card key={quiz.id} sx={{ borderRadius: 4, height: '100%', display: 'flex', flexDirection: 'column' }}>
-                <div className="mb-4 flex items-start justify-between gap-4">
-                  <div>
-                    <p className="text-xs font-semibold uppercase tracking-[0.2em] text-indigo-600">
-                      {quiz.category || 'General'}
-                    </p>
-                    <Typography component="h2" variant="h6" sx={{ fontWeight: 700 }}>{quiz.title}</Typography>
+                <CardContent sx={{ flex: 1, minWidth: 0, p: 2.5 }}>
+                  <div className="mb-4 flex min-w-0 items-start justify-between gap-4">
+                    <div className="min-w-0">
+                      <p className="text-xs font-semibold uppercase tracking-[0.2em] text-indigo-600">
+                        {quiz.category || 'General'}
+                      </p>
+                      <Typography component="h2" variant="h6" sx={{ fontWeight: 700, overflowWrap: 'anywhere' }}>
+                        {quiz.title}
+                      </Typography>
+                    </div>
+                    <Chip label={`${quiz._count.questions} qs`} color="primary" size="small" sx={{ flexShrink: 0 }} />
                   </div>
-                  <Chip label={`${quiz._count.questions} qs`} color="primary" size="small" />
-                </div>
-                <CardContent sx={{ flex: 1 }}>
-                <Typography variant="body2" color="text.secondary">
-                  {quiz.description || 'This quiz is ready for you to take and track your progress.'}
-                </Typography>
-                <div className="mt-2 flex justify-between">
-                  <Typography variant="caption" color="text.secondary">{quiz.timeLimitMinutes ? `${quiz.timeLimitMinutes} min` : 'No time limit'}</Typography>
-                  <Typography variant="caption" color="text.secondary">
-                    {new Intl.DateTimeFormat('en', {
-                      month: 'short',
-                      day: 'numeric',
-                      year: 'numeric',
-                    }).format(new Date(quiz.createdAt))}
+                  <Typography variant="body2" color="text.secondary">
+                    {quiz.description || 'This quiz is ready for you to take and track your progress.'}
                   </Typography>
-                </div>
+                  <div className="mt-2 flex justify-between gap-3">
+                    <Typography variant="caption" color="text.secondary">
+                      {quiz.timeLimitMinutes ? `${quiz.timeLimitMinutes} min` : 'No time limit'}
+                    </Typography>
+                    <Typography variant="caption" color="text.secondary">
+                      {new Intl.DateTimeFormat('en', {
+                        month: 'short',
+                        day: 'numeric',
+                        year: 'numeric',
+                      }).format(new Date(quiz.createdAt))}
+                    </Typography>
+                  </div>
                 </CardContent>
-                <CardActions>
+                <CardActions sx={{ px: 2.5, pb: 2.5, pt: 0 }}>
                   <Button href={`/quiz/${quiz.id}`} variant="contained">
                     {completedQuizIds.has(quiz.id) ? 'Retake quiz' : 'Start quiz'}
                   </Button>
